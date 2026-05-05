@@ -138,10 +138,11 @@
         noPending: "ไม่มีงานค้าง เยี่ยมมาก! 🎉",
         noTasks: "ไม่พบข้อมูลงาน",
         newTask: "เพิ่มงานใหม่",
+        editTask: "แก้ไขงาน",
         cancel: "ยกเลิก",
         save: "บันทึก",
         taskName: "ชื่องาน",
-        desc: "รายละเอียด (Optional)",
+        desc: "รายละเอียด",
         selectWs: "เลือก Workspace",
         dueDate: "กำหนดส่ง",
         saveTask: "บันทึกงาน",
@@ -186,6 +187,10 @@
         confirmDeleteText: "งานนี้จะถูกลบออกจากระบบอย่างถาวร",
         deleteConfirmBtn: "ลบเลย",
         delSuccess: "ลบสำเร็จ",
+        subtasks: "งานย่อย (Subtasks)",
+        addSubtask: "เพิ่มงานย่อย",
+        progress: "ความคืบหน้า",
+        assignee: "ผู้รับผิดชอบ"
       },
       en: {
         welcome: "Hello",
@@ -209,10 +214,11 @@
         noPending: "No pending tasks. Great job! 🎉",
         noTasks: "No tasks found",
         newTask: "New Task",
+        editTask: "Edit Task",
         cancel: "Cancel",
         save: "Save",
         taskName: "Task Name",
-        desc: "Description (Optional)",
+        desc: "Description",
         selectWs: "Select Workspace",
         dueDate: "Due Date",
         saveTask: "Save Task",
@@ -257,6 +263,10 @@
         confirmDeleteText: "This task will be permanently removed.",
         deleteConfirmBtn: "Delete",
         delSuccess: "Deleted",
+        subtasks: "Subtasks",
+        addSubtask: "Add Subtask",
+        progress: "Progress",
+        assignee: "Assignee"
       }
     };
 
@@ -264,6 +274,7 @@
     const Icons = {
       Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
       CheckSquare: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+      CheckMini: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>,
       Folder: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>,
       Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
       UserGroup: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
@@ -272,6 +283,7 @@
       LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
       Clock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
       Trash: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
+      Edit: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>,
       ChevronLeft: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>,
       ChevronRight: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
       Refresh: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>,
@@ -294,11 +306,8 @@
       const t = i18n[lang] || i18n['th'];
 
       useEffect(() => {
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
         localStorage.setItem('tf_theme', theme);
       }, [theme]);
 
@@ -320,13 +329,17 @@
       const [isSidebarOpen, setIsSidebarOpen] = useState(true);
       const [workspaces, setWorkspaces] = useState([]);
       const [tasks, setTasks] = useState([]);
-      const [usersList, setUsersList] = useState([]);
+      const [usersList, setUsersList] = useState([]); // Fetch users for everyone to assign subtasks
 
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
       const [loginError, setLoginError] = useState('');
+      
+      // Task Form State
       const [showTaskForm, setShowTaskForm] = useState(false);
-      const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '' });
+      const [isEditing, setIsEditing] = useState(false);
+      const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '', subtasks: [] });
+      
       const [newUser, setNewUser] = useState({ username: '', password: '', name: '', role: 'user' });
       const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
       const [newWorkspaceName, setNewWorkspaceName] = useState('');
@@ -341,7 +354,6 @@
           });
           return await response.json();
         } catch (error) {
-          console.error("API Error:", error);
           throw new Error("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
         }
       };
@@ -350,22 +362,30 @@
         if (!settings.isConnected || !user) return;
         setIsLoading(true);
         try {
-          const wsRes = await apiCall('getWorkspaces');
-          if (wsRes.status === 'success') setWorkspaces(wsRes.data);
+          const promises = [
+            apiCall('getWorkspaces').catch(() => ({ status: 'error' })),
+            apiCall('getTasks').catch(() => ({ status: 'error' })),
+            apiCall('getUsers').catch(() => ({ status: 'error' })) // Fetch users for dropdown assignees
+          ];
 
-          if (user.role === 'admin') {
-            const usersRes = await apiCall('getUsers');
-            if (usersRes.status === 'success') setUsersList(usersRes.data);
-          }
+          const results = await Promise.all(promises);
+          if (results[0] && results[0].status === 'success') setWorkspaces(results[0].data);
+          if (results[2] && results[2].status === 'success') setUsersList(results[2].data);
 
-          const taskRes = await apiCall('getTasks');
-          if (taskRes.status === 'success') {
+          if (results[1] && results[1].status === 'success') {
             const today = new Date().toISOString().split('T')[0];
-            const processedTasks = taskRes.data.map(task => {
+            const processedTasks = results[1].data.map(task => {
+              // Parse subtasks JSON
+              let parsedSubtasks = [];
+              try {
+                parsedSubtasks = typeof task.subtasks === 'string' ? JSON.parse(task.subtasks) : (task.subtasks || []);
+              } catch(e) {}
+
+              const updatedTask = { ...task, subtasks: parsedSubtasks };
               if (task.status !== 'Done' && task.due_date && task.due_date < today) {
-                 return { ...task, status: 'Overdue' };
+                 updatedTask.status = 'Overdue';
               }
-              return task;
+              return updatedTask;
             });
             setTasks(processedTasks);
           }
@@ -378,19 +398,17 @@
 
       useEffect(() => { loadData(); }, [user, settings.isConnected]);
 
+      // Calculate Progress Logic
+      const calculateProgress = (subtasks) => {
+        if (!subtasks || subtasks.length === 0) return null;
+        const doneCount = subtasks.filter(s => s.status === 'Done').length;
+        return Math.round((doneCount / subtasks.length) * 100);
+      };
+
       const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setLoginError('');
-
-        if (username === 'khajondech' && password === 'admin0100') {
-          const adminUser = { id: 'admin', username: 'khajondech', role: 'admin', name: 'Khajondech (Admin)' };
-          setUser(adminUser);
-          sessionStorage.setItem('tf_user', JSON.stringify(adminUser));
-          setView(settings.isConnected ? 'dashboard' : 'settings');
-          setIsLoading(false);
-          return;
-        }
 
         if (!settings.isConnected) {
           setLoginError(t.dbWarningDesc);
@@ -414,11 +432,8 @@
       };
 
       const handleLogout = () => {
-        setUser(null);
-        setUsername('');
-        setPassword('');
-        sessionStorage.removeItem('tf_user');
-        setView('dashboard');
+        setUser(null); setUsername(''); setPassword('');
+        sessionStorage.removeItem('tf_user'); setView('dashboard');
       };
 
       const handleConnectSettings = async () => {
@@ -430,133 +445,150 @@
             body: JSON.stringify({ action: 'setup', sheetId: settings.sheetId }),
           });
           const data = await response.json();
-          
           if (data.status === 'success') {
             const newSettings = { ...settings, isConnected: true };
-            setSettings(newSettings);
-            localStorage.setItem('tf_settings', JSON.stringify(newSettings));
-            loadData();
-            Swal.fire(t.success, 'เชื่อมต่อฐานข้อมูลและตั้งค่าระบบสำเร็จ', 'success');
-            setView('dashboard');
-          } else {
-            Swal.fire(t.fail, data.message, 'error');
-          }
+            setSettings(newSettings); localStorage.setItem('tf_settings', JSON.stringify(newSettings));
+            loadData(); Swal.fire(t.success, 'เชื่อมต่อฐานข้อมูลและตั้งค่าระบบสำเร็จ', 'success'); setView('dashboard');
+          } else Swal.fire(t.fail, data.message, 'error');
         } catch (e) {
-           Swal.fire(t.fail, 'ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Web App URL และ Google Sheet ID', 'error');
-        } finally {
-          setIsLoading(false);
-        }
+           Swal.fire(t.fail, 'ไม่สามารถเชื่อมต่อได้', 'error');
+        } finally { setIsLoading(false); }
       };
 
       const handleCreateUser = async (e) => {
         e.preventDefault();
-        if (!newUser.username || !newUser.password || !newUser.name) return;
-        setIsLoading(true);
+        const userToSave = { ...newUser };
+        const tempUser = { ...userToSave, id: 'temp_u_' + Date.now() };
+        setUsersList(prev => [...prev, tempUser]);
+        setNewUser({ username: '', password: '', name: '', role: 'user' });
+
         try {
-          const res = await apiCall('createUser', { data: newUser });
+          const res = await apiCall('createUser', { data: userToSave });
           if (res.status === 'success') {
-            Swal.fire({ icon: 'success', title: t.success, text: 'เพิ่มผู้ใช้งานสำเร็จ', timer: 1500, showConfirmButton: false });
-            setNewUser({ username: '', password: '', name: '', role: 'user' });
-            loadData();
+            Swal.fire({ icon: 'success', title: t.success, text: 'เพิ่มผู้ใช้งานสำเร็จ', timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
           } else {
-            Swal.fire(t.fail, res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ', 'error');
+            Swal.fire(t.fail, res.message, 'error');
+            setUsersList(prev => prev.filter(u => u.username !== tempUser.username));
           }
-        } catch (e) {
-          Swal.fire(t.fail, 'การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message, 'error');
-        } finally {
-          setIsLoading(false);
-        }
+        } catch (e) { setUsersList(prev => prev.filter(u => u.username !== tempUser.username)); }
       };
 
       const handleCreateWorkspace = async (e) => {
         e.preventDefault();
-        if (!newWorkspaceName.trim()) return;
-        setIsLoading(true);
+        const tempId = 'temp_ws_' + Date.now();
+        const newWs = { id: tempId, name: newWorkspaceName, created_by: user.username };
+        setWorkspaces(prev => [...prev, newWs]);
+        setShowWorkspaceForm(false); setNewWorkspaceName('');
+
         try {
-          const res = await apiCall('createWorkspace', { data: { name: newWorkspaceName, created_by: user.username } });
+          const res = await apiCall('createWorkspace', { data: { name: newWs.name, created_by: newWs.created_by } });
           if (res.status === 'success') {
-            Swal.fire({ icon: 'success', title: t.success, text: 'สร้าง Workspace สำเร็จ', timer: 1500, showConfirmButton: false });
-            setNewWorkspaceName('');
-            setShowWorkspaceForm(false);
-            loadData();
-          } else {
-            Swal.fire(t.fail, res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ', 'error');
-          }
-        } catch (e) {
-          Swal.fire(t.fail, 'การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message, 'error');
-        } finally {
-          setIsLoading(false);
-        }
+            setWorkspaces(prev => prev.map(w => w.id === tempId ? { ...w, id: res.data.id } : w));
+            Swal.fire({ icon: 'success', title: t.success, text: 'สร้าง Workspace สำเร็จ', timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
+          } else { setWorkspaces(prev => prev.filter(w => w.id !== tempId)); }
+        } catch (e) { setWorkspaces(prev => prev.filter(w => w.id !== tempId)); }
       };
 
-      const handleCreateTask = async (e) => {
+      // --- Task & Subtask Handling ---
+      const handleAddSubtaskForm = () => {
+        setNewTask(prev => ({
+          ...prev, 
+          subtasks: [...(prev.subtasks || []), { id: 'st_' + Date.now(), title: '', assignee: user.username, status: 'To Do' }]
+        }));
+      };
+
+      const handleSubtaskChange = (id, field, value) => {
+        setNewTask(prev => ({
+          ...prev,
+          subtasks: prev.subtasks.map(st => st.id === id ? { ...st, [field]: value } : st)
+        }));
+      };
+
+      const handleRemoveSubtaskForm = (id) => {
+        setNewTask(prev => ({ ...prev, subtasks: prev.subtasks.filter(st => st.id !== id) }));
+      };
+
+      const handleSaveTask = async (e) => {
         e.preventDefault();
         if (!newTask.title) return;
         
-        setIsLoading(true);
-        const taskData = {
+        const tempId = isEditing ? newTask.id : 'temp_t_' + Date.now();
+        const taskDataToSave = {
           title: newTask.title,
           description: newTask.description,
-          status: 'To Do',
+          status: newTask.status || 'To Do',
           workspace_id: newTask.workspace_id || (workspaces[0]?.id || ''),
           due_date: newTask.due_date,
-          assignee: user.username,
+          assignee: newTask.assignee || user.username,
+          subtasks: JSON.stringify(newTask.subtasks || [])
         };
 
+        const taskDataForUI = { ...taskDataToSave, id: tempId, subtasks: newTask.subtasks || [] };
+        
+        // Optimistic Update
+        const prevTasks = [...tasks];
+        if (isEditing) {
+          setTasks(prevTasks.map(t => t.id === tempId ? taskDataForUI : t));
+        } else {
+          setTasks([taskDataForUI, ...prevTasks]);
+        }
+        
+        setShowTaskForm(false);
+        setIsEditing(false);
+        
         try {
-          const res = await apiCall('createTask', { data: taskData });
+          const action = isEditing ? 'updateTask' : 'createTask';
+          const payload = isEditing ? { taskId: tempId, data: taskDataToSave } : { data: taskDataToSave };
+          
+          const res = await apiCall(action, payload);
           if (res.status === 'success') {
-            await loadData();
-            setShowTaskForm(false);
-            Swal.fire({ icon: 'success', title: t.success, text: 'สร้างงานสำเร็จ', timer: 1500, showConfirmButton: false });
-            setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '' });
+             if(!isEditing) setTasks(prev => prev.map(t => t.id === tempId ? { ...t, id: res.data.id } : t));
+             Swal.fire({ icon: 'success', title: t.success, text: t.saveTask, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
           } else {
-            Swal.fire(t.fail, 'สร้างงานไม่สำเร็จ', 'error');
+             Swal.fire(t.fail, 'ไม่สามารถบันทึกงานได้', 'error');
+             setTasks(prevTasks);
           }
         } catch (e) {
           Swal.fire(t.fail, e.message, 'error');
-        } finally {
-          setIsLoading(false);
+          setTasks(prevTasks);
         }
+      };
+
+      const openEditTask = (task) => {
+        setNewTask({ ...task });
+        setIsEditing(true);
+        setShowTaskForm(true);
       };
 
       const toggleTaskStatus = async (id, currentStatus) => {
         const nextStatusMap = { 'To Do': 'Doing', 'Doing': 'Done', 'Done': 'To Do', 'Overdue': 'Doing' };
         const nextStatus = nextStatusMap[currentStatus] || 'To Do';
-        
         setTasks(tasks.map(t => t.id === id ? { ...t, status: nextStatus } : t));
-        try {
-          await apiCall('updateTask', { taskId: id, data: { status: nextStatus } });
-        } catch (e) {
-          Swal.fire(t.fail, e.message, 'error');
-          loadData();
-        }
+        try { await apiCall('updateTask', { taskId: id, data: { status: nextStatus } }); } catch (e) {}
+      };
+
+      const toggleSubtaskStatusCard = async (taskId, subtaskId) => {
+        const task = tasks.find(t => t.id === taskId);
+        if(!task) return;
+
+        const updatedSubtasks = task.subtasks.map(st => st.id === subtaskId ? { ...st, status: st.status === 'Done' ? 'To Do' : 'Done' } : st);
+        setTasks(tasks.map(t => t.id === taskId ? { ...t, subtasks: updatedSubtasks } : t));
+        
+        try { await apiCall('updateTask', { taskId: taskId, data: { subtasks: JSON.stringify(updatedSubtasks) } }); } catch(e){}
       };
 
       const handleDeleteTask = async (id) => {
         const result = await Swal.fire({
-          title: t.confirmDeleteTitle,
-          text: t.confirmDeleteText,
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ff3b30',
-          cancelButtonColor: 'rgba(229, 229, 234, 0.8)',
-          confirmButtonText: t.deleteConfirmBtn,
-          cancelButtonText: t.cancel,
-          customClass: { cancelButton: 'text-[#1D1D1F]' }
+          title: t.confirmDeleteTitle, text: t.confirmDeleteText, icon: 'warning',
+          showCancelButton: true, confirmButtonColor: '#ff3b30', cancelButtonColor: 'rgba(229, 229, 234, 0.8)',
+          confirmButtonText: t.deleteConfirmBtn, cancelButtonText: t.cancel, customClass: { cancelButton: 'text-[#1D1D1F]' }
         });
-
         if (!result.isConfirmed) return;
-
-        const previousTasks = [...tasks];
-        setTasks(tasks.filter(t => t.id !== id));
+        const previousTasks = [...tasks]; setTasks(tasks.filter(t => t.id !== id));
         try {
           await apiCall('deleteTask', { taskId: id });
-          Swal.fire({ icon: 'success', title: t.delSuccess, text: '', timer: 1500, showConfirmButton: false });
-        } catch (e) {
-          Swal.fire(t.fail, "ลบงานไม่สำเร็จ: " + e.message, 'error');
-          setTasks(previousTasks);
-        }
+          Swal.fire({ icon: 'success', title: t.delSuccess, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
+        } catch (e) { setTasks(previousTasks); }
       };
 
       const stats = useMemo(() => {
@@ -601,7 +633,7 @@
                     value={password} onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                {loginError && <p className="text-red-500 text-sm font-medium">{loginError}</p>}
+                {loginError && <p className="text-red-500 text-sm font-medium text-center">{loginError}</p>}
                 <button 
                   type="submit" disabled={isLoading}
                   className={`w-full py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-500/20 text-white ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}
@@ -617,7 +649,7 @@
       return (
         <div className="min-h-screen flex font-sans selection:bg-blue-200 relative overflow-hidden">
           
-          {/* Glassmorphism Background Blobs */}
+          {/* Background Blobs */}
           <div className="fixed inset-0 z-0 pointer-events-none">
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
             <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] rounded-full bg-purple-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
@@ -691,7 +723,7 @@
             </div>
           </aside>
 
-          {/* Main Content Area */}
+          {/* Main Content */}
           <main className={`flex-1 pb-20 md:pb-0 min-h-screen relative overflow-y-auto transition-all duration-300 ease-in-out z-10 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
             <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-white/40 dark:from-gray-800/40 to-transparent -z-10 pointer-events-none" />
 
@@ -713,46 +745,23 @@
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                  {/* Theme Toggle Button (Sun/Moon) */}
-                  <button
-                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                    className="p-2.5 bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 rounded-full shadow-sm backdrop-blur-md transition-all text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-gray-700 focus:outline-none"
-                    title={t.darkTheme}
-                  >
+                  <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-2.5 bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 rounded-full shadow-sm backdrop-blur-md transition-all text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-gray-700 focus:outline-none">
                     {theme === 'dark' ? <Icons.Sun /> : <Icons.Moon />}
                   </button>
 
-                  {/* Language Toggle Switch (TH/EN) */}
-                  <button
-                    onClick={() => setLang(lang === 'th' ? 'en' : 'th')}
-                    className="relative inline-flex items-center w-[60px] h-10 rounded-full bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 shadow-sm backdrop-blur-md transition-all px-1 focus:outline-none"
-                    title={t.langEng}
-                  >
-                    <span className={`absolute text-[10px] font-bold transition-opacity ${lang === 'en' ? 'right-2.5 text-gray-500 dark:text-gray-400' : 'left-2.5 text-gray-500 dark:text-gray-400'}`}>
-                      {lang === 'th' ? 'EN' : 'TH'}
-                    </span>
+                  <button onClick={() => setLang(lang === 'th' ? 'en' : 'th')} className="relative inline-flex items-center w-[60px] h-10 rounded-full bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 shadow-sm backdrop-blur-md transition-all px-1 focus:outline-none">
+                    <span className={`absolute text-[10px] font-bold transition-opacity ${lang === 'en' ? 'right-2.5 text-gray-500 dark:text-gray-400' : 'left-2.5 text-gray-500 dark:text-gray-400'}`}>{lang === 'th' ? 'EN' : 'TH'}</span>
                     <span className={`inline-flex items-center justify-center w-8 h-8 transform bg-white dark:bg-gray-700 rounded-full transition-transform duration-300 shadow-sm border border-gray-100 dark:border-gray-600 ${lang === 'th' ? 'translate-x-0' : 'translate-x-5'}`}>
                       <span className="text-[10px] font-bold text-[#0071E3] dark:text-blue-400">{lang.toUpperCase()}</span>
                     </span>
                   </button>
 
-                  {/* Refresh Button */}
-                  <button 
-                    onClick={loadData}
-                    disabled={isLoading}
-                    className={`p-2.5 bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 rounded-full shadow-sm backdrop-blur-md transition-all flex items-center justify-center ${isLoading ? 'text-blue-400 cursor-not-allowed opacity-70' : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-700'}`}
-                    title="Refresh"
-                  >
-                    <div className={isLoading ? "animate-spin" : ""}>
-                      <Icons.Refresh />
-                    </div>
+                  <button onClick={loadData} disabled={isLoading} className={`p-2.5 bg-white/50 dark:bg-gray-800/50 border border-white/60 dark:border-gray-700/50 rounded-full shadow-sm backdrop-blur-md transition-all flex items-center justify-center ${isLoading ? 'text-blue-400 cursor-not-allowed opacity-70' : 'text-gray-500 dark:text-gray-400 hover:text-blue-600 hover:bg-white dark:hover:bg-gray-700'}`}>
+                    <div className={isLoading ? "animate-spin" : ""}><Icons.Refresh /></div>
                   </button>
                   
                   {view === 'tasks' && settings.isConnected && (
-                    <button 
-                      onClick={() => setShowTaskForm(true)}
-                      className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-medium active:scale-95"
-                    >
+                    <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-medium active:scale-95">
                       <Icons.Plus /> {t.newTask}
                     </button>
                   )}
@@ -798,38 +807,38 @@
                       <button onClick={() => setView('tasks')} className="text-blue-500 text-sm font-semibold hover:underline">{t.seeAll}</button>
                     </div>
                     <div className="space-y-3">
-                      {tasks.filter(t => t.status !== 'Done' && (t.assignee === user.username || user.role === 'admin')).slice(0, 3).map(task => (
-                        <GlassCard key={task.id} className="p-4 flex items-center justify-between group hover:bg-white/90 dark:hover:bg-gray-800 transition-colors">
-                          <div className="flex items-start gap-4">
-                            <button 
-                              onClick={() => toggleTaskStatus(task.id, task.status)}
-                              className={`mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors
-                                ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
-                                  task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
-                                  task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}
-                            >
-                              <Icons.CheckSquare />
-                            </button>
-                            <div>
-                              <h3 className={`font-semibold ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
-                              <div className="flex items-center gap-3 mt-1 text-xs">
-                                 <span className={`px-2 py-0.5 rounded-full font-medium
-                                    ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' :
-                                      task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400' :
-                                      task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'}`}
-                                  >
-                                    {task.status === 'To Do' ? t.done : task.status === 'Doing' ? t.doing : task.status === 'Overdue' ? t.overdue : t.done}
-                                    {/* Map status to language appropriately or just show native status */}
-                                    {task.status}
-                                  </span>
-                                  <span className="text-gray-500 dark:text-gray-400 flex items-center gap-1 font-medium">
-                                    <Icons.Clock /> {task.due_date || '-'}
-                                  </span>
+                      {tasks.filter(tk => tk.status !== 'Done' && (tk.assignee === user.username || user.role === 'admin')).slice(0, 3).map(task => {
+                        const progress = calculateProgress(task.subtasks);
+                        return (
+                        <GlassCard key={task.id} className="p-4 flex flex-col gap-3 group hover:bg-white/90 dark:hover:bg-gray-800 transition-colors">
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-start gap-4">
+                              <button onClick={() => toggleTaskStatus(task.id, task.status)} className={`mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : task.status === 'Doing' ? 'border-orange-400 text-orange-400' : task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}>
+                                <Icons.CheckSquare />
+                              </button>
+                              <div>
+                                <h3 className={`font-semibold ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
+                                <div className="flex items-center gap-3 mt-1 text-xs">
+                                   <span className={`px-2 py-0.5 rounded-full font-medium ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'}`}>
+                                      {task.status}
+                                    </span>
+                                    <span className="text-gray-500 dark:text-gray-400 flex items-center gap-1 font-medium">
+                                      <Icons.Clock /> {task.due_date || '-'}
+                                    </span>
+                                </div>
                               </div>
                             </div>
                           </div>
+                          {progress !== null && (
+                            <div className="w-full flex items-center gap-2 pl-10">
+                              <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                                <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
+                              </div>
+                              <span className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 min-w-[28px]">{progress}%</span>
+                            </div>
+                          )}
                         </GlassCard>
-                      ))}
+                      )})}
                       {tasks.filter(tk => tk.status !== 'Done').length === 0 && settings.isConnected && (
                          <div className="text-center py-10 text-gray-400 font-medium">
                             {t.noPending}
@@ -843,27 +852,56 @@
               {view === 'tasks' && (
                  <div className="space-y-4">
                    {tasks.length === 0 && <p className="text-center text-gray-400 py-10 font-medium">{t.noTasks}</p>}
-                   {tasks.map(task => (
-                     <GlassCard key={task.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
-                        <div className="flex items-start gap-4 flex-1">
-                            <button 
-                              onClick={() => toggleTaskStatus(task.id, task.status)}
-                              className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors mt-1 sm:mt-0
-                                ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
-                                  task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
-                                  task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}
-                            >
+                   {tasks.map(task => {
+                     const progress = calculateProgress(task.subtasks);
+                     return (
+                     <GlassCard key={task.id} className="p-5 flex flex-col justify-between gap-4 group">
+                        <div className="flex items-start gap-4 w-full">
+                            <button onClick={() => toggleTaskStatus(task.id, task.status)} className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors mt-1 ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : task.status === 'Doing' ? 'border-orange-400 text-orange-400' : task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}>
                                {task.status === 'Done' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>}
                             </button>
-                            <div className="flex-1">
-                              <h3 className={`font-semibold text-lg ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
+                            <div className="flex-1 w-full">
+                              <div className="flex justify-between items-start">
+                                <h3 className={`font-semibold text-lg ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
+                                {(user.role === 'admin' || task.assignee === user.username) && (
+                                  <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button onClick={() => openEditTask(task)} className="text-gray-400 hover:text-blue-500 p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors" title={t.editTask}>
+                                      <Icons.Edit />
+                                    </button>
+                                    <button onClick={() => handleDeleteTask(task.id)} className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Delete">
+                                      <Icons.Trash />
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
                               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-medium">{task.description}</p>
-                              <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
-                                 <span className={`px-2 py-1 rounded-md font-medium
-                                    ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' :
-                                      task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' :
-                                      task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 animate-pulse' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}
-                                  >
+                              
+                              {/* Progress & Subtasks */}
+                              {task.subtasks && task.subtasks.length > 0 && (
+                                <div className="mt-4 border border-gray-100 dark:border-gray-700/50 rounded-xl overflow-hidden bg-white/30 dark:bg-gray-800/30">
+                                  <div className="bg-gray-50 dark:bg-gray-800/80 p-2 px-3 flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700/50">
+                                    <span>{t.subtasks} ({task.subtasks.length})</span>
+                                    <span>{progress}% {t.progress}</span>
+                                  </div>
+                                  <div className="h-1 w-full bg-gray-200 dark:bg-gray-700">
+                                    <div className="h-1 bg-blue-500 transition-all duration-500" style={{width: `${progress}%`}}></div>
+                                  </div>
+                                  <div className="p-2 space-y-1">
+                                    {task.subtasks.map(st => (
+                                      <div key={st.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                                        <button onClick={() => toggleSubtaskStatusCard(task.id, st.id)} className={`flex-shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-colors ${st.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}>
+                                          <Icons.CheckMini />
+                                        </button>
+                                        <span className={`flex-1 text-sm font-medium ${st.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>{st.title}</span>
+                                        <span className="text-[10px] font-semibold px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">{st.assignee}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              <div className="flex flex-wrap items-center gap-2 mt-4 text-xs">
+                                 <span className={`px-2 py-1 rounded-md font-medium ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 animate-pulse' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}>
                                     {task.status}
                                   </span>
                                   <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-md flex items-center gap-1 font-medium">
@@ -874,24 +912,14 @@
                                       <Icons.Clock /> {task.due_date}
                                     </span>
                                   )}
-                                  <span className="text-gray-400 ml-auto flex items-center gap-1 font-medium">
+                                  <span className="text-gray-400 ml-auto flex items-center gap-1 font-medium bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-md">
                                     <Icons.User /> {task.assignee}
                                   </span>
                               </div>
                             </div>
-                            
-                            {(user.role === 'admin' || task.assignee === user.username) && (
-                              <button 
-                                onClick={() => handleDeleteTask(task.id)}
-                                className="text-gray-300 dark:text-gray-600 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 opacity-0 group-hover:opacity-100 hidden sm:block"
-                                title="Delete"
-                              >
-                                <Icons.Trash />
-                              </button>
-                            )}
                         </div>
                      </GlassCard>
-                   ))}
+                   )})}
                  </div>
               )}
 
@@ -915,64 +943,41 @@
                      </GlassCard>
                   ))}
                   {user.role === 'admin' && (
-                    <button 
-                      onClick={() => setShowWorkspaceForm(true)}
-                      className="h-full min-h-[160px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all"
-                    >
-                      <Icons.Plus />
-                      <span className="mt-2 font-medium">{t.addWs}</span>
+                    <button onClick={() => setShowWorkspaceForm(true)} className="h-full min-h-[160px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all">
+                      <Icons.Plus /> <span className="mt-2 font-medium">{t.addWs}</span>
                     </button>
                   )}
                 </div>
               )}
 
               {view === 'users' && user.role === 'admin' && (
+                // ... same users code ...
                 <div className="space-y-6">
                   <GlassCard className="p-6 md:p-8 max-w-2xl">
-                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                      <Icons.UserGroup /> {t.addUserTitle}
-                    </h2>
+                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2"><Icons.UserGroup /> {t.addUserTitle}</h2>
                     <form onSubmit={handleCreateUser} className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.name}</label>
-                          <input 
-                            type="text" required
-                            className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white"
-                            value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})}
-                          />
+                          <input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} />
                         </div>
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.role}</label>
-                          <select 
-                            className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white"
-                            value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}
-                          >
-                            <option value="user">{t.userRole}</option>
-                            <option value="admin">{t.adminRole}</option>
+                          <select className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}>
+                            <option value="user">{t.userRole}</option><option value="admin">{t.adminRole}</option>
                           </select>
                         </div>
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.username}</label>
-                          <input 
-                            type="text" required
-                            className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white"
-                            value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})}
-                          />
+                          <input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})} />
                         </div>
                         <div>
                           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.password}</label>
-                          <input 
-                            type="password" required
-                            className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white"
-                            value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})}
-                          />
+                          <input type="password" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})} />
                         </div>
                       </div>
                       <div className="pt-4 flex justify-end">
-                        <button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>
-                          {isLoading ? t.checking : t.addUserBtn}
-                        </button>
+                        <button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>{isLoading ? t.checking : t.addUserBtn}</button>
                       </div>
                     </form>
                   </GlassCard>
@@ -984,21 +989,14 @@
                          <table className="w-full text-left border-collapse">
                            <thead>
                              <tr className="border-b border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
-                               <th className="py-3 px-4 font-semibold">{t.name}</th>
-                               <th className="py-3 px-4 font-semibold">{t.username}</th>
-                               <th className="py-3 px-4 font-semibold">{t.role}</th>
+                               <th className="py-3 px-4 font-semibold">{t.name}</th><th className="py-3 px-4 font-semibold">{t.username}</th><th className="py-3 px-4 font-semibold">{t.role}</th>
                              </tr>
                            </thead>
                            <tbody>
                              {usersList.map((u, i) => (
                                <tr key={i} className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-white/40 dark:hover:bg-gray-800/40 transition-colors">
-                                 <td className="py-3 px-4 font-semibold">{u.name}</td>
-                                 <td className="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">{u.username}</td>
-                                 <td className="py-3 px-4">
-                                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${u.role === 'admin' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>
-                                     {u.role}
-                                   </span>
-                                 </td>
+                                 <td className="py-3 px-4 font-semibold">{u.name}</td><td className="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">{u.username}</td>
+                                 <td className="py-3 px-4"><span className={`text-xs px-2 py-1 rounded-full font-medium ${u.role === 'admin' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>{u.role}</span></td>
                                </tr>
                              ))}
                            </tbody>
@@ -1010,113 +1008,102 @@
               )}
 
               {view === 'settings' && user.role === 'admin' && (
-                <div className="space-y-6">
-                  <GlassCard className="p-8 max-w-2xl">
-                    <div className="mb-8">
-                      <h2 className="text-xl font-bold mb-2">{t.dbConn}</h2>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{t.dbHint}</p>
+                <GlassCard className="p-8 max-w-2xl">
+                  <div className="mb-8">
+                    <h2 className="text-xl font-bold mb-2">{t.dbConn}</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{t.dbHint}</p>
+                  </div>
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.sheetId}</label>
+                      <input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.sheetId} onChange={(e) => setSettings({...settings, sheetId: e.target.value})} />
                     </div>
-
-                    <div className="space-y-5">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.sheetId}</label>
-                        <input 
-                          type="text" 
-                          className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white"
-                          value={settings.sheetId}
-                          onChange={(e) => setSettings({...settings, sheetId: e.target.value})}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.gasUrl}</label>
-                        <input 
-                          type="text" 
-                          className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white"
-                          value={settings.gasUrl}
-                          onChange={(e) => setSettings({...settings, gasUrl: e.target.value})}
-                        />
-                      </div>
-                      
-                      <div className="pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
-                          <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">
-                            {settings.isConnected ? t.connected : t.notConnected}
-                          </span>
-                        </div>
-                        
-                        <button 
-                          onClick={handleConnectSettings}
-                          disabled={isLoading || !settings.sheetId || !settings.gasUrl}
-                          className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${
-                            (!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed' :
-                            'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'
-                          }`}
-                        >
-                          {settings.isConnected ? t.updateConn : t.connectBtn}
-                        </button>
-                      </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.gasUrl}</label>
+                      <input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.gasUrl} onChange={(e) => setSettings({...settings, gasUrl: e.target.value})} />
                     </div>
-                  </GlassCard>
-                </div>
+                    <div className="pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                        <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{settings.isConnected ? t.connected : t.notConnected}</span>
+                      </div>
+                      <button onClick={handleConnectSettings} disabled={isLoading || !settings.sheetId || !settings.gasUrl} className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${(!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed' : 'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'}`}>
+                        {settings.isConnected ? t.updateConn : t.connectBtn}
+                      </button>
+                    </div>
+                  </div>
+                </GlassCard>
               )}
 
             </div>
           </main>
 
           {view === 'tasks' && !showTaskForm && settings.isConnected && (
-            <button 
-              onClick={() => setShowTaskForm(true)}
-              className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform"
-            >
+            <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform">
               <Icons.Plus />
             </button>
           )}
 
-          {/* New Task Modal */}
+          {/* New/Edit Task Modal with Subtasks */}
           {showTaskForm && (
-            <div className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-              <GlassCard className="w-full max-w-lg p-6 bg-white/90 dark:bg-gray-800/90">
-                <h2 className="text-2xl font-bold mb-6">{t.newTask}</h2>
-                <form onSubmit={handleCreateTask} className="space-y-4">
+            <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in overflow-y-auto">
+              <GlassCard className="w-full max-w-2xl p-6 bg-white/95 dark:bg-gray-800/95 max-h-[90vh] flex flex-col">
+                <h2 className="text-2xl font-bold mb-4 shrink-0">{isEditing ? t.editTask : t.newTask}</h2>
+                <form onSubmit={handleSaveTask} className="space-y-4 overflow-y-auto pr-2 pb-4 flex-1 custom-scrollbar">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.taskName}</label>
-                    <input 
-                      type="text" required autoFocus
-                      className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white"
-                      value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})}
-                    />
+                    <input type="text" required autoFocus className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.desc}</label>
-                    <textarea 
-                      rows="3"
-                      className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none resize-none font-sans dark:text-white"
-                      value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})}
-                    />
+                    <textarea rows="2" className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none resize-none font-sans dark:text-white" value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.workspaces}</label>
-                      <select 
-                        required
-                        className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white"
-                        value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}
-                      >
+                      <select required className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}>
                         <option value="" disabled>{t.selectWs}</option>
                         {workspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.dueDate}</label>
-                      <input 
-                        type="date"
-                        className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white"
-                        value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})}
-                      />
+                      <input type="date" className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})} />
                     </div>
                   </div>
-                  <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
+
+                  {/* Subtasks Section in Form */}
+                  <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-6">
+                    <div className="flex justify-between items-center mb-3">
+                      <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">{t.subtasks}</label>
+                      <button type="button" onClick={handleAddSubtaskForm} className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                        <Icons.Plus /> {t.addSubtask}
+                      </button>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      {(!newTask.subtasks || newTask.subtasks.length === 0) && (
+                        <p className="text-sm text-gray-400 dark:text-gray-500 italic py-2 text-center bg-gray-50 dark:bg-gray-800/50 rounded-xl">ไม่มีงานย่อย</p>
+                      )}
+                      {(newTask.subtasks || []).map((st) => (
+                        <div key={st.id} className="flex flex-col sm:flex-row gap-2 bg-gray-50 dark:bg-gray-800/80 p-3 rounded-xl border border-gray-100 dark:border-gray-700 items-start sm:items-center">
+                          <input type="text" placeholder="ชื่องานย่อย..." className="flex-1 w-full sm:w-auto px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-sm dark:text-white focus:border-blue-500" value={st.title} onChange={(e) => handleSubtaskChange(st.id, 'title', e.target.value)} />
+                          <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                            <select className="flex-1 sm:w-32 px-2 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs dark:text-white" value={st.assignee} onChange={(e) => handleSubtaskChange(st.id, 'assignee', e.target.value)}>
+                              <option value={user.username}>ฉัน ({user.username})</option>
+                              {usersList.filter(u => u.username !== user.username).map(u => <option key={u.username} value={u.username}>{u.username}</option>)}
+                            </select>
+                            <select className="w-24 px-2 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs dark:text-white font-medium" value={st.status} onChange={(e) => handleSubtaskChange(st.id, 'status', e.target.value)}>
+                              <option value="To Do">To Do</option><option value="Done">Done</option>
+                            </select>
+                            <button type="button" onClick={() => handleRemoveSubtaskForm(st.id)} className="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"><Icons.Trash /></button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 shrink-0">
                     <button type="button" onClick={() => setShowTaskForm(false)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                       {t.cancel}
                     </button>
@@ -1131,25 +1118,17 @@
 
           {/* Workspace Modal */}
           {showWorkspaceForm && (
-            <div className="fixed inset-0 bg-black/20 dark:bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+            <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
               <GlassCard className="w-full max-w-md p-6 bg-white/90 dark:bg-gray-800/90">
                 <h2 className="text-2xl font-bold mb-6">{t.addWs}</h2>
                 <form onSubmit={handleCreateWorkspace} className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.wsName}</label>
-                    <input 
-                      type="text" required autoFocus
-                      className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white"
-                      value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)}
-                    />
+                    <input type="text" required autoFocus className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)} />
                   </div>
                   <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                      {t.cancel}
-                    </button>
-                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
-                      {isLoading ? t.checking : t.createWsBtn}
-                    </button>
+                    <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{t.cancel}</button>
+                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>{isLoading ? t.checking : t.createWsBtn}</button>
                   </div>
                 </form>
               </GlassCard>
@@ -1178,7 +1157,12 @@
               ))}
             </div>
           </nav>
-
+          
+          <style dangerouslySetInnerHTML={{__html: `
+            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 10px; }
+          `}} />
         </div>
       );
     }
