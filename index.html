@@ -1,907 +1,933 @@
-import React, { useState, useEffect, useMemo } from 'react';
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TaskSphere - Smart Workspace Collaboration</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React & ReactDOM -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  
+  <!-- Babel (สำหรับแปลง JSX ในเบราว์เซอร์) -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-// --- Icons (Inline SVGs for single-file portability) ---
-const Icons = {
-  Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
-  CheckSquare: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-  Folder: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>,
-  Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
-  User: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
-  Plus: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>,
-  LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
-  Clock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
-  Trash: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
-  ChevronLeft: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>,
-  ChevronRight: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
-  UserGroup: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
-};
-
-// Glassmorphism Card Wrapper
-const GlassCard = ({ children, className = '' }) => (
-  <div className={`bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl ${className}`}>
-    {children}
-  </div>
-);
-
-export default function App() {
-  const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem('tf_settings');
-    return saved ? JSON.parse(saved) : { sheetId: '', gasUrl: '', isConnected: false };
-  });
-  const [user, setUser] = useState(() => {
-    const saved = sessionStorage.getItem('tf_user');
-    return saved ? JSON.parse(saved) : null;
-  });
-
-  const [view, setView] = useState('dashboard');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [workspaces, setWorkspaces] = useState([]);
-  const [tasks, setTasks] = useState([]);
-  const [usersList, setUsersList] = useState([]);
-
-  // Form States
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginError, setLoginError] = useState('');
-  const [showTaskForm, setShowTaskForm] = useState(false);
-  const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '' });
-  const [newUser, setNewUser] = useState({ username: '', password: '', name: '', role: 'user' });
-  const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
-  const [newWorkspaceName, setNewWorkspaceName] = useState('');
-
-  const apiCall = async (action, payload = {}) => {
-    if (!settings.gasUrl) throw new Error("Google Apps Script URL is not configured");
-    try {
-      const response = await fetch(settings.gasUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
-        body: JSON.stringify({ action, sheetId: settings.sheetId, ...payload }),
-      });
-      return await response.json();
-    } catch (error) {
-      console.error("API Error:", error);
-      throw new Error("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+  <!-- ฟอนต์ของระบบ (Apple Font Stack) -->
+  <style>
+    @font-face {
+      font-family: 'SF Pro Display';
+      font-style: normal;
+      font-weight: 400;
+      src: local('SF Pro Display Regular'), local('SFProDisplay-Regular');
     }
-  };
-
-  const loadData = async () => {
-    if (!settings.isConnected || !user) return;
-    setIsLoading(true);
-    try {
-      const wsRes = await apiCall('getWorkspaces');
-      if (wsRes.status === 'success') setWorkspaces(wsRes.data);
-
-      if (user.role === 'admin') {
-        const usersRes = await apiCall('getUsers');
-        if (usersRes.status === 'success') setUsersList(usersRes.data);
-      }
-
-      const taskRes = await apiCall('getTasks');
-      if (taskRes.status === 'success') {
-        const today = new Date().toISOString().split('T')[0];
-        const processedTasks = taskRes.data.map(task => {
-          if (task.status !== 'Done' && task.due_date && task.due_date < today) {
-             return { ...task, status: 'Overdue' };
-          }
-          return task;
-        });
-        setTasks(processedTasks);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
+    @font-face {
+      font-family: 'SF Pro Display';
+      font-style: normal;
+      font-weight: 600;
+      src: local('SF Pro Display Semibold'), local('SFProDisplay-Semibold');
     }
-  };
-
-  useEffect(() => { loadData(); }, [user, settings.isConnected]);
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setLoginError('');
-
-    if (username === 'khajondech' && password === 'admin0100') {
-      const adminUser = { id: 'admin', username: 'khajondech', role: 'admin', name: 'Khajondech (Admin)' };
-      setUser(adminUser);
-      sessionStorage.setItem('tf_user', JSON.stringify(adminUser));
-      setView(settings.isConnected ? 'dashboard' : 'settings');
-      setIsLoading(false);
-      return;
+    @font-face {
+      font-family: 'SF Pro Display';
+      font-style: normal;
+      font-weight: 700;
+      src: local('SF Pro Display Bold'), local('SFProDisplay-Bold');
     }
 
-    if (!settings.isConnected) {
-      setLoginError('ระบบยังไม่ได้เชื่อมต่อฐานข้อมูล กรุณาให้ Admin เข้าสู่ระบบเพื่อตั้งค่า');
-      setIsLoading(false);
-      return;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap');
+
+    body, .font-sans, input, select, textarea, button {
+      font-family: "SF Pro TH", "SF Pro Display", "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans Thai", "Inter", sans-serif !important;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.022em;
     }
 
-    try {
-      const res = await apiCall('login', { username, password });
-      if (res.status === 'success') {
-        setUser(res.data);
-        sessionStorage.setItem('tf_user', JSON.stringify(res.data));
-        setView('dashboard');
-      } else {
-        setLoginError(res.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-      }
-    } catch (err) {
-      setLoginError(err.message);
+    h1, h2, h3, h4, .font-semibold, .font-bold {
+      letter-spacing: -0.025em;
     }
-    setIsLoading(false);
-  };
 
-  const handleLogout = () => {
-    setUser(null);
-    setUsername('');
-    setPassword('');
-    sessionStorage.removeItem('tf_user');
-    setView('dashboard');
-  };
-
-  const handleConnectSettings = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(settings.gasUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'setup', sheetId: settings.sheetId }),
-      });
-      const data = await response.json();
-      
-      if (data.status === 'success') {
-        const newSettings = { ...settings, isConnected: true };
-        setSettings(newSettings);
-        localStorage.setItem('tf_settings', JSON.stringify(newSettings));
-        loadData();
-        alert('เชื่อมต่อฐานข้อมูลและตั้งค่าระบบสำเร็จ!');
-        setView('dashboard');
-      } else {
-        alert('เชื่อมต่อล้มเหลว: ' + data.message);
-      }
-    } catch (e) {
-       alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Web App URL และ Google Sheet ID');
-    } finally {
-      setIsLoading(false);
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes blob {
+      0% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+      100% { transform: translate(0px, 0px) scale(1); }
     }
-  };
+    .animate-blob { animation: blob 7s infinite alternate; }
+    .animation-delay-2000 { animation-delay: 2s; }
+    .animation-delay-4000 { animation-delay: 4s; }
+    .animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+  </style>
+</head>
+<body class="bg-[#f5f5f7]">
+  
+  <!-- จุดที่จะนำ React มา Render -->
+  <div id="root"></div>
 
-  const handleCreateUser = async (e) => {
-    e.preventDefault();
-    if (!newUser.username || !newUser.password || !newUser.name) return;
-    setIsLoading(true);
-    try {
-      const res = await apiCall('createUser', { data: newUser });
-      if (res.status === 'success') {
-        alert('เพิ่มผู้ใช้งานสำเร็จ');
-        setNewUser({ username: '', password: '', name: '', role: 'user' });
-        loadData();
-      } else {
-        alert('เพิ่มไม่สำเร็จ: ' + (res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ'));
-      }
-    } catch (e) {
-      alert('การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  <!-- โค้ด React (ใช้ Babel แปลง) -->
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
 
-  const handleCreateWorkspace = async (e) => {
-    e.preventDefault();
-    if (!newWorkspaceName.trim()) return;
-    setIsLoading(true);
-    try {
-      const res = await apiCall('createWorkspace', { data: { name: newWorkspaceName, created_by: user.username } });
-      if (res.status === 'success') {
-        alert('สร้าง Workspace สำเร็จ');
-        setNewWorkspaceName('');
-        setShowWorkspaceForm(false);
-        loadData();
-      } else {
-        alert('สร้างไม่สำเร็จ: ' + (res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ'));
-      }
-    } catch (e) {
-      alert('การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleCreateTask = async (e) => {
-    e.preventDefault();
-    if (!newTask.title) return;
-    
-    setIsLoading(true);
-    const taskData = {
-      title: newTask.title,
-      description: newTask.description,
-      status: 'To Do',
-      workspace_id: newTask.workspace_id || (workspaces[0]?.id || ''),
-      due_date: newTask.due_date,
-      assignee: user.username,
+    // --- Icons ---
+    const Icons = {
+      Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
+      CheckSquare: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+      Folder: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>,
+      Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
+      User: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
+      Plus: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>,
+      LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
+      Clock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+      Trash: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>,
+      ChevronLeft: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>,
+      ChevronRight: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
+      UserGroup: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
     };
 
-    try {
-      const res = await apiCall('createTask', { data: taskData });
-      if (res.status === 'success') {
-        await loadData();
-        setShowTaskForm(false);
-        setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '' });
-      } else {
-        alert('สร้างงานไม่สำเร็จ');
-      }
-    } catch (e) {
-      alert(e.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const toggleTaskStatus = async (id, currentStatus) => {
-    const nextStatusMap = { 'To Do': 'Doing', 'Doing': 'Done', 'Done': 'To Do', 'Overdue': 'Doing' };
-    const nextStatus = nextStatusMap[currentStatus] || 'To Do';
-    
-    setTasks(tasks.map(t => t.id === id ? { ...t, status: nextStatus } : t));
-    try {
-      await apiCall('updateTask', { taskId: id, data: { status: nextStatus } });
-    } catch (e) {
-      alert("อัปเดตไม่สำเร็จ: " + e.message);
-      loadData();
-    }
-  };
-
-  const handleDeleteTask = async (id) => {
-    if (!window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบงานนี้?")) return;
-    const previousTasks = [...tasks];
-    setTasks(tasks.filter(t => t.id !== id));
-    try {
-      await apiCall('deleteTask', { taskId: id });
-    } catch (e) {
-      alert("ลบงานไม่สำเร็จ: " + e.message);
-      setTasks(previousTasks);
-    }
-  };
-
-  const stats = useMemo(() => {
-    const myTasks = tasks.filter(t => t.assignee === user?.username || user?.role === 'admin');
-    return {
-      total: myTasks.length,
-      done: myTasks.filter(t => t.status === 'Done').length,
-      pending: myTasks.filter(t => t.status === 'To Do' || t.status === 'Doing').length,
-      overdue: myTasks.filter(t => t.status === 'Overdue').length,
-    };
-  }, [tasks, user]);
-
-
-  if (!user) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#f5f5f7] to-[#e5e5ea] flex items-center justify-center p-4 font-sans text-[#1D1D1F]">
-        <GlassCard className="w-full max-w-md p-8 animate-fade-in-up">
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-500 to-blue-400 text-white shadow-lg mb-4">
-              <Icons.CheckSquare />
-            </div>
-            <h1 className="text-3xl font-semibold tracking-tight">TaskSphere</h1>
-            <p className="text-gray-500 mt-2">Smart Workspace Collaboration</p>
-          </div>
-          
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">ชื่อผู้ใช้งาน</label>
-              <input 
-                type="text" required
-                className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans"
-                placeholder="ระบุ username"
-                value={username} onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
-              <input 
-                type="password" required
-                className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans"
-                placeholder="ระบุรหัสผ่าน"
-                value={password} onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            {loginError && <p className="text-red-500 text-sm font-medium">{loginError}</p>}
-            <button 
-              type="submit" disabled={isLoading}
-              className={`w-full py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-500/20 text-white ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}
-            >
-              {isLoading ? 'กำลังตรวจสอบ...' : 'เข้าสู่ระบบ'}
-            </button>
-          </form>
-          <div className="mt-6 text-center text-xs text-gray-400 flex flex-col gap-1">
-            <span>Welcome back?</span>
-            <span>Task Management</span>
-          </div>
-        </GlassCard>
+    // --- Components ---
+    const GlassCard = ({ children, className = '' }) => (
+      <div className={`bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl ${className}`}>
+        {children}
       </div>
     );
-  }
 
-  return (
-    <div className="min-h-screen bg-[#f5f5f7] flex font-sans text-[#1D1D1F] selection:bg-blue-200 relative overflow-hidden">
-      
-      {/* Glassmorphism Background Blobs */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
-        <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] rounded-full bg-purple-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
-        <div className="absolute bottom-[-20%] left-[20%] w-[40%] h-[40%] rounded-full bg-cyan-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
-      </div>
+    function App() {
+      const [settings, setSettings] = useState(() => {
+        const saved = localStorage.getItem('tf_settings');
+        return saved ? JSON.parse(saved) : { sheetId: '', gasUrl: '', isConnected: false };
+      });
+      const [user, setUser] = useState(() => {
+        const saved = sessionStorage.getItem('tf_user');
+        return saved ? JSON.parse(saved) : null;
+      });
 
-      {isLoading && (
-        <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
-           <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
-      )}
+      const [view, setView] = useState('dashboard');
+      const [isLoading, setIsLoading] = useState(false);
+      const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+      const [workspaces, setWorkspaces] = useState([]);
+      const [tasks, setTasks] = useState([]);
+      const [usersList, setUsersList] = useState([]);
 
-      {/* Desktop Sidebar */}
-      <aside className={`hidden md:flex flex-col fixed inset-y-0 left-0 bg-white/40 backdrop-blur-2xl border-r border-white/60 z-20 pt-8 pb-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64 px-4' : 'w-20 px-2'}`}>
-        
-        <button 
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="absolute -right-3.5 top-10 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-blue-500 hover:border-blue-300 transition-colors z-30"
-        >
-          {isSidebarOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
-        </button>
+      const [username, setUsername] = useState('');
+      const [password, setPassword] = useState('');
+      const [loginError, setLoginError] = useState('');
+      const [showTaskForm, setShowTaskForm] = useState(false);
+      const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '' });
+      const [newUser, setNewUser] = useState({ username: '', password: '', name: '', role: 'user' });
+      const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
+      const [newWorkspaceName, setNewWorkspaceName] = useState('');
 
-        <div className={`flex items-center gap-3 mb-10 ${isSidebarOpen ? 'px-2' : 'justify-center'}`}>
-          <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0">
-             <Icons.CheckSquare />
-          </div>
-          {isSidebarOpen && <span className="font-semibold text-xl tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-300">TaskSphere</span>}
-        </div>
+      const apiCall = async (action, payload = {}) => {
+        if (!settings.gasUrl) throw new Error("Google Apps Script URL is not configured");
+        try {
+          const response = await fetch(settings.gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+            body: JSON.stringify({ action, sheetId: settings.sheetId, ...payload }),
+          });
+          return await response.json();
+        } catch (error) {
+          console.error("API Error:", error);
+          throw new Error("เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์");
+        }
+      };
 
-        <nav className="flex-1 space-y-2">
-          {[
-            { id: 'dashboard', label: 'หน้าแรก', icon: Icons.Home },
-            { id: 'tasks', label: 'งานของฉัน', icon: Icons.CheckSquare },
-            { id: 'workspaces', label: 'พื้นที่ทำงาน', icon: Icons.Folder },
-            ...(user.role === 'admin' ? [
-              { id: 'users', label: 'ผู้ใช้งาน', icon: Icons.UserGroup },
-              { id: 'settings', label: 'ตั้งค่าระบบ', icon: Icons.Settings }
-            ] : [])
-          ].map(item => (
-            <button
-              key={item.id}
-              onClick={() => setView(item.id)}
-              title={!isSidebarOpen ? item.label : ''}
-              className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-3 rounded-xl transition-all ${view === item.id ? 'bg-white shadow-sm font-semibold text-blue-600' : 'text-gray-600 font-medium hover:bg-white/60'}`}
-            >
-              <div className="shrink-0"><item.icon /></div>
-              {isSidebarOpen && <span className="whitespace-nowrap overflow-hidden">{item.label}</span>}
-            </button>
-          ))}
-        </nav>
+      const loadData = async () => {
+        if (!settings.isConnected || !user) return;
+        setIsLoading(true);
+        try {
+          const wsRes = await apiCall('getWorkspaces');
+          if (wsRes.status === 'success') setWorkspaces(wsRes.data);
 
-        <div className="mt-auto">
-          <GlassCard className={`p-2 flex items-center gap-3 mb-2 bg-white/40 border-none shadow-none ${isSidebarOpen ? 'px-4' : 'justify-center'}`}>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold uppercase shrink-0">
-              {user.name.charAt(0)}
-            </div>
-            {isSidebarOpen && (
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold truncate">{user.name}</p>
-                <p className="text-xs text-gray-500 capitalize">{user.role}</p>
-              </div>
-            )}
-          </GlassCard>
-          <button 
-            onClick={handleLogout} 
-            title={!isSidebarOpen ? 'ออกจากระบบ' : ''}
-            className={`w-full flex items-center ${isSidebarOpen ? 'justify-center gap-2 px-4' : 'justify-center'} py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-lg transition-colors`}
-          >
-            <div className="shrink-0"><Icons.LogOut /></div> 
-            {isSidebarOpen && <span>ออกจากระบบ</span>}
-          </button>
-        </div>
-      </aside>
+          if (user.role === 'admin') {
+            const usersRes = await apiCall('getUsers');
+            if (usersRes.status === 'success') setUsersList(usersRes.data);
+          }
 
-      {/* Main Content Area */}
-      <main className={`flex-1 pb-20 md:pb-0 min-h-screen relative overflow-y-auto transition-all duration-300 ease-in-out z-10 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
-        <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-white/40 to-transparent -z-10 pointer-events-none" />
+          const taskRes = await apiCall('getTasks');
+          if (taskRes.status === 'success') {
+            const today = new Date().toISOString().split('T')[0];
+            const processedTasks = taskRes.data.map(task => {
+              if (task.status !== 'Done' && task.due_date && task.due_date < today) {
+                 return { ...task, status: 'Overdue' };
+              }
+              return task;
+            });
+            setTasks(processedTasks);
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-        <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-8 animate-fade-in">
+      useEffect(() => { loadData(); }, [user, settings.isConnected]);
+
+      const handleLogin = async (e) => {
+        e.preventDefault();
+        setIsLoading(true);
+        setLoginError('');
+
+        if (username === 'khajondech' && password === 'admin0100') {
+          const adminUser = { id: 'admin', username: 'khajondech', role: 'admin', name: 'Khajondech (Admin)' };
+          setUser(adminUser);
+          sessionStorage.setItem('tf_user', JSON.stringify(adminUser));
+          setView(settings.isConnected ? 'dashboard' : 'settings');
+          setIsLoading(false);
+          return;
+        }
+
+        if (!settings.isConnected) {
+          setLoginError('ระบบยังไม่ได้เชื่อมต่อฐานข้อมูล กรุณาให้ Admin เข้าสู่ระบบเพื่อตั้งค่า');
+          setIsLoading(false);
+          return;
+        }
+
+        try {
+          const res = await apiCall('login', { username, password });
+          if (res.status === 'success') {
+            setUser(res.data);
+            sessionStorage.setItem('tf_user', JSON.stringify(res.data));
+            setView('dashboard');
+          } else {
+            setLoginError(res.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
+          }
+        } catch (err) {
+          setLoginError(err.message);
+        }
+        setIsLoading(false);
+      };
+
+      const handleLogout = () => {
+        setUser(null);
+        setUsername('');
+        setPassword('');
+        sessionStorage.removeItem('tf_user');
+        setView('dashboard');
+      };
+
+      const handleConnectSettings = async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(settings.gasUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'setup', sheetId: settings.sheetId }),
+          });
+          const data = await response.json();
           
-          <header className="flex justify-between items-end">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-                {view === 'dashboard' && `สวัสดี, ${user.name}`}
-                {view === 'tasks' && 'งานทั้งหมด'}
-                {view === 'workspaces' && 'พื้นที่ทำงาน'}
-                {view === 'users' && 'จัดการผู้ใช้งาน'}
-                {view === 'settings' && 'ตั้งค่าระบบ'}
-              </h1>
-              <p className="text-gray-500 mt-2 font-medium">
-                {view === 'dashboard' && 'ภาพรวมความคืบหน้างานของคุณในวันนี้'}
-                {view === 'users' && 'เพิ่มและจัดการสมาชิกใน TaskSphere'}
-                {view === 'settings' && 'เชื่อมต่อ Google Sheets และ Apps Script'}
-              </p>
-            </div>
-            
-            {view === 'tasks' && settings.isConnected && (
-              <button 
-                onClick={() => setShowTaskForm(true)}
-                className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-medium active:scale-95"
-              >
-                <Icons.Plus /> เพิ่มงานใหม่
-              </button>
-            )}
-          </header>
+          if (data.status === 'success') {
+            const newSettings = { ...settings, isConnected: true };
+            setSettings(newSettings);
+            localStorage.setItem('tf_settings', JSON.stringify(newSettings));
+            loadData();
+            alert('เชื่อมต่อฐานข้อมูลและตั้งค่าระบบสำเร็จ!');
+            setView('dashboard');
+          } else {
+            alert('เชื่อมต่อล้มเหลว: ' + data.message);
+          }
+        } catch (e) {
+           alert('ไม่สามารถเชื่อมต่อได้ กรุณาตรวจสอบ Web App URL และ Google Sheet ID');
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-          {user.role === 'admin' && !settings.isConnected && view !== 'settings' && (
-            <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl flex items-center justify-between shadow-sm">
-              <div className="flex items-center gap-3">
-                <span className="text-xl">⚠️</span>
-                <div>
-                  <p className="font-semibold">ระบบยังไม่ได้เชื่อมต่อฐานข้อมูล</p>
-                  <p className="text-sm opacity-80">กรุณาตั้งค่า Google Sheets ID และ Web App URL เพื่อเริ่มใช้งาน</p>
+      const handleCreateUser = async (e) => {
+        e.preventDefault();
+        if (!newUser.username || !newUser.password || !newUser.name) return;
+        setIsLoading(true);
+        try {
+          const res = await apiCall('createUser', { data: newUser });
+          if (res.status === 'success') {
+            alert('เพิ่มผู้ใช้งานสำเร็จ');
+            setNewUser({ username: '', password: '', name: '', role: 'user' });
+            loadData();
+          } else {
+            alert('เพิ่มไม่สำเร็จ: ' + (res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ'));
+          }
+        } catch (e) {
+          alert('การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      const handleCreateWorkspace = async (e) => {
+        e.preventDefault();
+        if (!newWorkspaceName.trim()) return;
+        setIsLoading(true);
+        try {
+          const res = await apiCall('createWorkspace', { data: { name: newWorkspaceName, created_by: user.username } });
+          if (res.status === 'success') {
+            alert('สร้าง Workspace สำเร็จ');
+            setNewWorkspaceName('');
+            setShowWorkspaceForm(false);
+            loadData();
+          } else {
+            alert('สร้างไม่สำเร็จ: ' + (res.message || 'ข้อผิดพลาดไม่ทราบสาเหตุ'));
+          }
+        } catch (e) {
+          alert('การเชื่อมต่อกับเซิร์ฟเวอร์ล้มเหลว: ' + e.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      const handleCreateTask = async (e) => {
+        e.preventDefault();
+        if (!newTask.title) return;
+        
+        setIsLoading(true);
+        const taskData = {
+          title: newTask.title,
+          description: newTask.description,
+          status: 'To Do',
+          workspace_id: newTask.workspace_id || (workspaces[0]?.id || ''),
+          due_date: newTask.due_date,
+          assignee: user.username,
+        };
+
+        try {
+          const res = await apiCall('createTask', { data: taskData });
+          if (res.status === 'success') {
+            await loadData();
+            setShowTaskForm(false);
+            setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '' });
+          } else {
+            alert('สร้างงานไม่สำเร็จ');
+          }
+        } catch (e) {
+          alert(e.message);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      const toggleTaskStatus = async (id, currentStatus) => {
+        const nextStatusMap = { 'To Do': 'Doing', 'Doing': 'Done', 'Done': 'To Do', 'Overdue': 'Doing' };
+        const nextStatus = nextStatusMap[currentStatus] || 'To Do';
+        
+        setTasks(tasks.map(t => t.id === id ? { ...t, status: nextStatus } : t));
+        try {
+          await apiCall('updateTask', { taskId: id, data: { status: nextStatus } });
+        } catch (e) {
+          alert("อัปเดตไม่สำเร็จ: " + e.message);
+          loadData();
+        }
+      };
+
+      const handleDeleteTask = async (id) => {
+        if (!window.confirm("คุณแน่ใจหรือไม่ว่าต้องการลบงานนี้?")) return;
+        const previousTasks = [...tasks];
+        setTasks(tasks.filter(t => t.id !== id));
+        try {
+          await apiCall('deleteTask', { taskId: id });
+        } catch (e) {
+          alert("ลบงานไม่สำเร็จ: " + e.message);
+          setTasks(previousTasks);
+        }
+      };
+
+      const stats = useMemo(() => {
+        const myTasks = tasks.filter(t => t.assignee === user?.username || user?.role === 'admin');
+        return {
+          total: myTasks.length,
+          done: myTasks.filter(t => t.status === 'Done').length,
+          pending: myTasks.filter(t => t.status === 'To Do' || t.status === 'Doing').length,
+          overdue: myTasks.filter(t => t.status === 'Overdue').length,
+        };
+      }, [tasks, user]);
+
+
+      if (!user) {
+        return (
+          <div className="min-h-screen flex items-center justify-center p-4 font-sans text-[#1D1D1F]">
+            <GlassCard className="w-full max-w-md p-8 animate-fade-in-up">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-500 to-blue-400 text-white shadow-lg mb-4">
+                  <Icons.CheckSquare />
                 </div>
+                <h1 className="text-3xl font-semibold tracking-tight">TaskSphere</h1>
+                <p className="text-gray-500 mt-2">Smart Workspace Collaboration</p>
               </div>
-              <button onClick={() => setView('settings')} className="px-4 py-2 bg-yellow-200 hover:bg-yellow-300 rounded-lg text-sm font-semibold transition-colors">
-                ตั้งค่าเดี๋ยวนี้
-              </button>
+              
+              <form onSubmit={handleLogin} className="space-y-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">ชื่อผู้ใช้งาน</label>
+                  <input 
+                    type="text" required
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans"
+                    placeholder="ระบุ username"
+                    value={username} onChange={(e) => setUsername(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">รหัสผ่าน</label>
+                  <input 
+                    type="password" required
+                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans"
+                    placeholder="ระบุรหัสผ่าน"
+                    value={password} onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                {loginError && <p className="text-red-500 text-sm font-medium">{loginError}</p>}
+                <button 
+                  type="submit" disabled={isLoading}
+                  className={`w-full py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-500/20 text-white ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}
+                >
+                  {isLoading ? 'กำลังตรวจสอบ...' : 'เข้าสู่ระบบ'}
+                </button>
+              </form>
+              <div className="mt-6 text-center text-xs text-gray-400 flex flex-col gap-1">
+                <span>Welcome Back</span>
+                <span>Task Management</span>
+              </div>
+            </GlassCard>
+          </div>
+        );
+      }
+
+      return (
+        <div className="min-h-screen flex font-sans text-[#1D1D1F] selection:bg-blue-200 relative overflow-hidden">
+          
+          {/* Glassmorphism Background Blobs */}
+          <div className="fixed inset-0 z-0 pointer-events-none">
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
+            <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] rounded-full bg-purple-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
+            <div className="absolute bottom-[-20%] left-[20%] w-[40%] h-[40%] rounded-full bg-cyan-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-4000"></div>
+          </div>
+
+          {isLoading && (
+            <div className="fixed inset-0 bg-white/50 backdrop-blur-sm z-50 flex items-center justify-center">
+               <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
             </div>
           )}
 
-          {view === 'dashboard' && (
-            <div className="space-y-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { label: 'งานทั้งหมด', value: stats.total, color: 'text-blue-600', bg: 'bg-blue-50' },
-                  { label: 'เสร็จสิ้น', value: stats.done, color: 'text-green-600', bg: 'bg-green-50' },
-                  { label: 'กำลังทำ', value: stats.pending, color: 'text-orange-500', bg: 'bg-orange-50' },
-                  { label: 'เกินกำหนด', value: stats.overdue, color: 'text-red-500', bg: 'bg-red-50' },
-                ].map((stat, idx) => (
-                  <GlassCard key={idx} className="p-6 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-transform duration-300">
-                    <div className={`w-12 h-12 rounded-full ${stat.bg} ${stat.color} flex items-center justify-center mb-3`}>
-                      <span className="text-2xl font-bold">{stat.value}</span>
-                    </div>
-                    <span className="text-sm font-medium text-gray-600">{stat.label}</span>
-                  </GlassCard>
-                ))}
-              </div>
+          {/* Desktop Sidebar */}
+          <aside className={`hidden md:flex flex-col fixed inset-y-0 left-0 bg-white/40 backdrop-blur-2xl border-r border-white/60 z-20 pt-8 pb-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64 px-4' : 'w-20 px-2'}`}>
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="absolute -right-3.5 top-10 w-7 h-7 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-blue-500 hover:border-blue-300 transition-colors z-30"
+            >
+              {isSidebarOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
+            </button>
 
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-xl font-bold">งานเร่งด่วน</h2>
-                  <button onClick={() => setView('tasks')} className="text-blue-500 text-sm font-semibold hover:underline">ดูทั้งหมด</button>
+            <div className={`flex items-center gap-3 mb-10 ${isSidebarOpen ? 'px-2' : 'justify-center'}`}>
+              <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0">
+                 <Icons.CheckSquare />
+              </div>
+              {isSidebarOpen && <span className="font-semibold text-xl tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-300">TaskSphere</span>}
+            </div>
+
+            <nav className="flex-1 space-y-2">
+              {[
+                { id: 'dashboard', label: 'หน้าแรก', icon: Icons.Home },
+                { id: 'tasks', label: 'งานของฉัน', icon: Icons.CheckSquare },
+                { id: 'workspaces', label: 'พื้นที่ทำงาน', icon: Icons.Folder },
+                ...(user.role === 'admin' ? [
+                  { id: 'users', label: 'ผู้ใช้งาน', icon: Icons.UserGroup },
+                  { id: 'settings', label: 'ตั้งค่าระบบ', icon: Icons.Settings }
+                ] : [])
+              ].map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => setView(item.id)}
+                  title={!isSidebarOpen ? item.label : ''}
+                  className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-3 rounded-xl transition-all ${view === item.id ? 'bg-white shadow-sm font-semibold text-blue-600' : 'text-gray-600 font-medium hover:bg-white/60'}`}
+                >
+                  <div className="shrink-0"><item.icon /></div>
+                  {isSidebarOpen && <span className="whitespace-nowrap overflow-hidden">{item.label}</span>}
+                </button>
+              ))}
+            </nav>
+
+            <div className="mt-auto">
+              <GlassCard className={`p-2 flex items-center gap-3 mb-2 bg-white/40 border-none shadow-none ${isSidebarOpen ? 'px-4' : 'justify-center'}`}>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold uppercase shrink-0">
+                  {user.name.charAt(0)}
                 </div>
-                <div className="space-y-3">
-                  {tasks.filter(t => t.status !== 'Done' && (t.assignee === user.username || user.role === 'admin')).slice(0, 3).map(task => (
-                    <GlassCard key={task.id} className="p-4 flex items-center justify-between group hover:bg-white/90 transition-colors">
-                      <div className="flex items-start gap-4">
-                        <button 
-                          onClick={() => toggleTaskStatus(task.id, task.status)}
-                          className={`mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors
-                            ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
-                              task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
-                              task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 text-transparent hover:border-green-500'}`}
-                        >
-                          <Icons.CheckSquare />
-                        </button>
-                        <div>
-                          <h3 className={`font-semibold ${task.status === 'Done' ? 'line-through text-gray-400' : ''}`}>{task.title}</h3>
-                          <div className="flex items-center gap-3 mt-1 text-xs">
-                             <span className={`px-2 py-0.5 rounded-full font-medium
-                                ${task.status === 'To Do' ? 'bg-gray-100 text-gray-600' :
-                                  task.status === 'Doing' ? 'bg-orange-100 text-orange-600' :
-                                  task.status === 'Overdue' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}
-                              >
-                                {task.status}
-                              </span>
-                              <span className="text-gray-500 flex items-center gap-1 font-medium">
-                                <Icons.Clock /> {task.due_date || 'ไม่ระบุ'}
-                              </span>
-                          </div>
+                {isSidebarOpen && (
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold truncate">{user.name}</p>
+                    <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+                  </div>
+                )}
+              </GlassCard>
+              <button 
+                onClick={handleLogout} 
+                title={!isSidebarOpen ? 'ออกจากระบบ' : ''}
+                className={`w-full flex items-center ${isSidebarOpen ? 'justify-center gap-2 px-4' : 'justify-center'} py-2 text-sm font-medium text-red-500 hover:bg-red-50 rounded-lg transition-colors`}
+              >
+                <div className="shrink-0"><Icons.LogOut /></div> 
+                {isSidebarOpen && <span>ออกจากระบบ</span>}
+              </button>
+            </div>
+          </aside>
+
+          {/* Main Content Area */}
+          <main className={`flex-1 pb-20 md:pb-0 min-h-screen relative overflow-y-auto transition-all duration-300 ease-in-out z-10 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
+            <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-white/40 to-transparent -z-10 pointer-events-none" />
+
+            <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-8 animate-fade-in">
+              <header className="flex justify-between items-end">
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
+                    {view === 'dashboard' && `สวัสดี, ${user.name}`}
+                    {view === 'tasks' && 'งานทั้งหมด'}
+                    {view === 'workspaces' && 'พื้นที่ทำงาน'}
+                    {view === 'users' && 'จัดการผู้ใช้งาน'}
+                    {view === 'settings' && 'ตั้งค่าระบบ'}
+                  </h1>
+                  <p className="text-gray-500 mt-2 font-medium">
+                    {view === 'dashboard' && 'ภาพรวมความคืบหน้างานของคุณในวันนี้'}
+                    {view === 'users' && 'เพิ่มและจัดการสมาชิกใน TaskSphere'}
+                    {view === 'settings' && 'เชื่อมต่อ Google Sheets และ Apps Script'}
+                  </p>
+                </div>
+                
+                {view === 'tasks' && settings.isConnected && (
+                  <button 
+                    onClick={() => setShowTaskForm(true)}
+                    className="hidden md:flex items-center gap-2 px-4 py-2 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-medium active:scale-95"
+                  >
+                    <Icons.Plus /> เพิ่มงานใหม่
+                  </button>
+                )}
+              </header>
+
+              {user.role === 'admin' && !settings.isConnected && view !== 'settings' && (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xl">⚠️</span>
+                    <div>
+                      <p className="font-semibold">ระบบยังไม่ได้เชื่อมต่อฐานข้อมูล</p>
+                      <p className="text-sm opacity-80">กรุณาตั้งค่า Google Sheets ID และ Web App URL เพื่อเริ่มใช้งาน</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setView('settings')} className="px-4 py-2 bg-yellow-200 hover:bg-yellow-300 rounded-lg text-sm font-semibold transition-colors">
+                    ตั้งค่าเดี๋ยวนี้
+                  </button>
+                </div>
+              )}
+
+              {view === 'dashboard' && (
+                <div className="space-y-8">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                      { label: 'งานทั้งหมด', value: stats.total, color: 'text-blue-600', bg: 'bg-blue-50' },
+                      { label: 'เสร็จสิ้น', value: stats.done, color: 'text-green-600', bg: 'bg-green-50' },
+                      { label: 'กำลังทำ', value: stats.pending, color: 'text-orange-500', bg: 'bg-orange-50' },
+                      { label: 'เกินกำหนด', value: stats.overdue, color: 'text-red-500', bg: 'bg-red-50' },
+                    ].map((stat, idx) => (
+                      <GlassCard key={idx} className="p-6 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-transform duration-300">
+                        <div className={`w-12 h-12 rounded-full ${stat.bg} ${stat.color} flex items-center justify-center mb-3`}>
+                          <span className="text-2xl font-bold">{stat.value}</span>
                         </div>
-                      </div>
-                    </GlassCard>
+                        <span className="text-sm font-medium text-gray-600">{stat.label}</span>
+                      </GlassCard>
+                    ))}
+                  </div>
+
+                  <div>
+                    <div className="flex justify-between items-center mb-4">
+                      <h2 className="text-xl font-bold">งานเร่งด่วน</h2>
+                      <button onClick={() => setView('tasks')} className="text-blue-500 text-sm font-semibold hover:underline">ดูทั้งหมด</button>
+                    </div>
+                    <div className="space-y-3">
+                      {tasks.filter(t => t.status !== 'Done' && (t.assignee === user.username || user.role === 'admin')).slice(0, 3).map(task => (
+                        <GlassCard key={task.id} className="p-4 flex items-center justify-between group hover:bg-white/90 transition-colors">
+                          <div className="flex items-start gap-4">
+                            <button 
+                              onClick={() => toggleTaskStatus(task.id, task.status)}
+                              className={`mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors
+                                ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
+                                  task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
+                                  task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 text-transparent hover:border-green-500'}`}
+                            >
+                              <Icons.CheckSquare />
+                            </button>
+                            <div>
+                              <h3 className={`font-semibold ${task.status === 'Done' ? 'line-through text-gray-400' : ''}`}>{task.title}</h3>
+                              <div className="flex items-center gap-3 mt-1 text-xs">
+                                 <span className={`px-2 py-0.5 rounded-full font-medium
+                                    ${task.status === 'To Do' ? 'bg-gray-100 text-gray-600' :
+                                      task.status === 'Doing' ? 'bg-orange-100 text-orange-600' :
+                                      task.status === 'Overdue' ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'}`}
+                                  >
+                                    {task.status}
+                                  </span>
+                                  <span className="text-gray-500 flex items-center gap-1 font-medium">
+                                    <Icons.Clock /> {task.due_date || 'ไม่ระบุ'}
+                                  </span>
+                              </div>
+                            </div>
+                          </div>
+                        </GlassCard>
+                      ))}
+                      {tasks.filter(t => t.status !== 'Done').length === 0 && settings.isConnected && (
+                         <div className="text-center py-10 text-gray-400 font-medium">
+                            ไม่มีงานค้าง เยี่ยมมาก! 🎉
+                         </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {view === 'tasks' && (
+                 <div className="space-y-4">
+                   {tasks.length === 0 && <p className="text-center text-gray-400 py-10 font-medium">ไม่พบข้อมูลงาน</p>}
+                   {tasks.map(task => (
+                     <GlassCard key={task.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
+                        <div className="flex items-start gap-4 flex-1">
+                            <button 
+                              onClick={() => toggleTaskStatus(task.id, task.status)}
+                              className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors mt-1 sm:mt-0
+                                ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
+                                  task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
+                                  task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 text-transparent hover:border-green-500'}`}
+                            >
+                               {task.status === 'Done' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>}
+                            </button>
+                            <div className="flex-1">
+                              <h3 className={`font-semibold text-lg ${task.status === 'Done' ? 'line-through text-gray-400' : ''}`}>{task.title}</h3>
+                              <p className="text-sm text-gray-500 mt-1 line-clamp-2 font-medium">{task.description}</p>
+                              <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
+                                 <span className={`px-2 py-1 rounded-md font-medium
+                                    ${task.status === 'To Do' ? 'bg-gray-100 text-gray-600' :
+                                      task.status === 'Doing' ? 'bg-orange-100 text-orange-700' :
+                                      task.status === 'Overdue' ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-green-100 text-green-700'}`}
+                                  >
+                                    {task.status}
+                                  </span>
+                                  <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-md flex items-center gap-1 font-medium">
+                                    <Icons.Folder /> {workspaces.find(w => w.id === task.workspace_id)?.name || 'Unknown Workspace'}
+                                  </span>
+                                  {task.due_date && (
+                                    <span className={`flex items-center gap-1 px-2 py-1 rounded-md font-medium ${task.status === 'Overdue' ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-500'}`}>
+                                      <Icons.Clock /> {task.due_date}
+                                    </span>
+                                  )}
+                                  <span className="text-gray-400 ml-auto flex items-center gap-1 font-medium">
+                                    <Icons.User /> {task.assignee}
+                                  </span>
+                              </div>
+                            </div>
+                            
+                            {(user.role === 'admin' || task.assignee === user.username) && (
+                              <button 
+                                onClick={() => handleDeleteTask(task.id)}
+                                className="text-gray-300 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 opacity-0 group-hover:opacity-100 hidden sm:block"
+                                title="ลบงาน"
+                              >
+                                <Icons.Trash />
+                              </button>
+                            )}
+                        </div>
+                     </GlassCard>
+                   ))}
+                 </div>
+              )}
+
+              {view === 'workspaces' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {workspaces.length === 0 && <p className="text-gray-400 col-span-2 font-medium">ยังไม่มี Workspace</p>}
+                  {workspaces.map(ws => (
+                     <GlassCard key={ws.id} className="p-6 hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                            <Icons.Folder />
+                          </div>
+                          <h3 className="text-xl font-bold">{ws.name}</h3>
+                        </div>
+                        <div className="text-sm text-gray-500 mb-4 font-medium">
+                          ผู้สร้าง: <span className="font-semibold text-gray-700">{ws.created_by}</span>
+                        </div>
+                        <div className="flex gap-2">
+                           <span className="text-xs bg-gray-100 px-2 py-1 rounded-md font-medium">{tasks.filter(t => t.workspace_id === ws.id).length} งาน</span>
+                        </div>
+                     </GlassCard>
                   ))}
-                  {tasks.filter(t => t.status !== 'Done').length === 0 && settings.isConnected && (
-                     <div className="text-center py-10 text-gray-400 font-medium">
-                        ไม่มีงานค้าง เยี่ยมมาก! 🎉
-                     </div>
+                  {user.role === 'admin' && (
+                    <button 
+                      onClick={() => setShowWorkspaceForm(true)}
+                      className="h-full min-h-[160px] border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-500 hover:text-blue-500 hover:border-blue-300 hover:bg-blue-50/50 transition-all"
+                    >
+                      <Icons.Plus />
+                      <span className="mt-2 font-medium">เพิ่ม Workspace ใหม่</span>
+                    </button>
                   )}
                 </div>
-              </div>
-            </div>
-          )}
-
-          {view === 'tasks' && (
-             <div className="space-y-4">
-               {tasks.length === 0 && <p className="text-center text-gray-400 py-10 font-medium">ไม่พบข้อมูลงาน</p>}
-               {tasks.map(task => (
-                 <GlassCard key={task.id} className="p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 group">
-                    <div className="flex items-start gap-4 flex-1">
-                        <button 
-                          onClick={() => toggleTaskStatus(task.id, task.status)}
-                          className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors mt-1 sm:mt-0
-                            ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 
-                              task.status === 'Doing' ? 'border-orange-400 text-orange-400' :
-                              task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 text-transparent hover:border-green-500'}`}
-                        >
-                           {task.status === 'Done' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>}
-                        </button>
-                        <div className="flex-1">
-                          <h3 className={`font-semibold text-lg ${task.status === 'Done' ? 'line-through text-gray-400' : ''}`}>{task.title}</h3>
-                          <p className="text-sm text-gray-500 mt-1 line-clamp-2 font-medium">{task.description}</p>
-                          <div className="flex flex-wrap items-center gap-2 mt-3 text-xs">
-                             <span className={`px-2 py-1 rounded-md font-medium
-                                ${task.status === 'To Do' ? 'bg-gray-100 text-gray-600' :
-                                  task.status === 'Doing' ? 'bg-orange-100 text-orange-700' :
-                                  task.status === 'Overdue' ? 'bg-red-100 text-red-700 animate-pulse' : 'bg-green-100 text-green-700'}`}
-                              >
-                                {task.status}
-                              </span>
-                              <span className="bg-blue-50 text-blue-600 px-2 py-1 rounded-md flex items-center gap-1 font-medium">
-                                <Icons.Folder /> {workspaces.find(w => w.id === task.workspace_id)?.name || 'Unknown Workspace'}
-                              </span>
-                              {task.due_date && (
-                                <span className={`flex items-center gap-1 px-2 py-1 rounded-md font-medium ${task.status === 'Overdue' ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-500'}`}>
-                                  <Icons.Clock /> {task.due_date}
-                                </span>
-                              )}
-                              <span className="text-gray-400 ml-auto flex items-center gap-1 font-medium">
-                                <Icons.User /> {task.assignee}
-                              </span>
-                          </div>
-                        </div>
-                        
-                        {(user.role === 'admin' || task.assignee === user.username) && (
-                          <button 
-                            onClick={() => handleDeleteTask(task.id)}
-                            className="text-gray-300 hover:text-red-500 transition-colors p-2 rounded-lg hover:bg-red-50 opacity-0 group-hover:opacity-100 hidden sm:block"
-                            title="ลบงาน"
-                          >
-                            <Icons.Trash />
-                          </button>
-                        )}
-                    </div>
-                 </GlassCard>
-               ))}
-             </div>
-          )}
-
-          {view === 'workspaces' && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {workspaces.length === 0 && <p className="text-gray-400 col-span-2 font-medium">ยังไม่มี Workspace</p>}
-              {workspaces.map(ws => (
-                 <GlassCard key={ws.id} className="p-6 hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                        <Icons.Folder />
-                      </div>
-                      <h3 className="text-xl font-bold">{ws.name}</h3>
-                    </div>
-                    <div className="text-sm text-gray-500 mb-4 font-medium">
-                      ผู้สร้าง: <span className="font-semibold text-gray-700">{ws.created_by}</span>
-                    </div>
-                    <div className="flex gap-2">
-                       <span className="text-xs bg-gray-100 px-2 py-1 rounded-md font-medium">{tasks.filter(t => t.workspace_id === ws.id).length} งาน</span>
-                    </div>
-                 </GlassCard>
-              ))}
-              {user.role === 'admin' && (
-                <button 
-                  onClick={() => setShowWorkspaceForm(true)}
-                  className="h-full min-h-[160px] border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-500 hover:text-blue-500 hover:border-blue-300 hover:bg-blue-50/50 transition-all"
-                >
-                  <Icons.Plus />
-                  <span className="mt-2 font-medium">เพิ่ม Workspace ใหม่</span>
-                </button>
               )}
-            </div>
-          )}
 
-          {view === 'users' && user.role === 'admin' && (
-            <div className="space-y-6">
-              <GlassCard className="p-6 md:p-8 max-w-2xl">
-                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  <Icons.UserGroup /> เพิ่มผู้ใช้งานใหม่
-                </h2>
-                <form onSubmit={handleCreateUser} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {view === 'users' && user.role === 'admin' && (
+                <div className="space-y-6">
+                  <GlassCard className="p-6 md:p-8 max-w-2xl">
+                    <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                      <Icons.UserGroup /> เพิ่มผู้ใช้งานใหม่
+                    </h2>
+                    <form onSubmit={handleCreateUser} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อ-นามสกุล (Name)</label>
+                          <input 
+                            type="text" required
+                            className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                            value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">สิทธิ์การใช้งาน (Role)</label>
+                          <select 
+                            className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                            value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}
+                          >
+                            <option value="user">User (ทั่วไป)</option>
+                            <option value="admin">Admin (ผู้ดูแลระบบ)</option>
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อผู้ใช้ (Username)</label>
+                          <input 
+                            type="text" required
+                            className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                            value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})}
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-1">รหัสผ่าน (Password)</label>
+                          <input 
+                            type="password" required
+                            className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                            value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})}
+                          />
+                        </div>
+                      </div>
+                      <div className="pt-4 flex justify-end">
+                        <button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>
+                          {isLoading ? 'กำลังบันทึก...' : 'เพิ่มผู้ใช้งาน'}
+                        </button>
+                      </div>
+                    </form>
+                  </GlassCard>
+
+                  {usersList.length > 0 && (
+                    <GlassCard className="p-6 md:p-8">
+                       <h2 className="text-xl font-bold mb-4">รายชื่อผู้ใช้งานระบบ</h2>
+                       <div className="overflow-x-auto">
+                         <table className="w-full text-left border-collapse">
+                           <thead>
+                             <tr className="border-b border-gray-200 text-sm text-gray-500">
+                               <th className="py-3 px-4 font-semibold">ชื่อ-นามสกุล</th>
+                               <th className="py-3 px-4 font-semibold">Username</th>
+                               <th className="py-3 px-4 font-semibold">Role</th>
+                             </tr>
+                           </thead>
+                           <tbody>
+                             {usersList.map((u, i) => (
+                               <tr key={i} className="border-b border-gray-100 last:border-0 hover:bg-white/40 transition-colors">
+                                 <td className="py-3 px-4 font-semibold">{u.name}</td>
+                                 <td className="py-3 px-4 text-gray-600 font-medium">{u.username}</td>
+                                 <td className="py-3 px-4">
+                                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
+                                     {u.role}
+                                   </span>
+                                 </td>
+                               </tr>
+                             ))}
+                           </tbody>
+                         </table>
+                       </div>
+                    </GlassCard>
+                  )}
+                </div>
+              )}
+
+              {view === 'settings' && user.role === 'admin' && (
+                <GlassCard className="p-8 max-w-2xl">
+                  <div className="mb-8">
+                    <h2 className="text-xl font-bold mb-2">เชื่อมต่อฐานข้อมูล (Database Connection)</h2>
+                    <p className="text-sm text-gray-500 font-medium">ระบบใช้ Google Sheets เป็นฐานข้อมูลหลัก เมื่อกดเชื่อมต่อระบบจะสร้างตารางที่จำเป็นให้โดยอัตโนมัติ (First-Time Setup)</p>
+                  </div>
+
+                  <div className="space-y-5">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อ-นามสกุล (Name)</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Google Sheet ID</label>
                       <input 
-                        type="text" required
-                        className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                        value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})}
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-mono text-sm"
+                        placeholder="e.g., 1BxiMvs0XRYFgwnAKBTOoNecVNXp_a..."
+                        value={settings.sheetId}
+                        onChange={(e) => setSettings({...settings, sheetId: e.target.value})}
                       />
+                      <p className="text-xs text-gray-400 mt-1 font-medium">คัดลอก ID จาก URL ของ Google Sheet</p>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">สิทธิ์การใช้งาน (Role)</label>
-                      <select 
-                        className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                        value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">Google Apps Script Web App URL</label>
+                      <input 
+                        type="text" 
+                        className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-mono text-sm"
+                        placeholder="https://script.google.com/macros/s/.../exec"
+                        value={settings.gasUrl}
+                        onChange={(e) => setSettings({...settings, gasUrl: e.target.value})}
+                      />
+                      <p className="text-xs text-gray-400 mt-1 font-medium">URL ที่ได้จากการ Deploy Script (ลงท้ายด้วย /exec)</p>
+                    </div>
+                    
+                    <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                        <span className="text-sm font-semibold text-gray-600">
+                          {settings.isConnected ? 'เชื่อมต่อฐานข้อมูลแล้ว' : 'ยังไม่ได้เชื่อมต่อ'}
+                        </span>
+                      </div>
+                      
+                      <button 
+                        onClick={handleConnectSettings}
+                        disabled={isLoading || !settings.sheetId || !settings.gasUrl}
+                        className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${
+                          (!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
+                          'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'
+                        }`}
                       >
-                        <option value="user">User (ทั่วไป)</option>
-                        <option value="admin">Admin (ผู้ดูแลระบบ)</option>
+                        {settings.isConnected ? 'อัปเดตการเชื่อมต่อ' : 'Connect & Auto Setup'}
+                      </button>
+                    </div>
+                  </div>
+                </GlassCard>
+              )}
+
+            </div>
+          </main>
+
+          {view === 'tasks' && !showTaskForm && settings.isConnected && (
+            <button 
+              onClick={() => setShowTaskForm(true)}
+              className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform"
+            >
+              <Icons.Plus />
+            </button>
+          )}
+
+          {showTaskForm && (
+            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+              <GlassCard className="w-full max-w-lg p-6 bg-white/90">
+                <h2 className="text-2xl font-bold mb-6">สร้างงานใหม่</h2>
+                <form onSubmit={handleCreateTask} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่องาน</label>
+                    <input 
+                      type="text" required autoFocus
+                      className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                      value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">รายละเอียด (Optional)</label>
+                    <textarea 
+                      rows="3"
+                      className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none resize-none font-sans"
+                      value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">พื้นที่ทำงาน</label>
+                      <select 
+                        required
+                        className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                        value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}
+                      >
+                        <option value="" disabled>เลือก Workspace</option>
+                        {workspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อผู้ใช้ (Username)</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-1">กำหนดส่ง</label>
                       <input 
-                        type="text" required
-                        className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                        value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-1">รหัสผ่าน (Password)</label>
-                      <input 
-                        type="password" required
-                        className="w-full px-4 py-2 rounded-xl bg-white/80 border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                        value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})}
+                        type="date"
+                        className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                        value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})}
                       />
                     </div>
                   </div>
-                  <div className="pt-4 flex justify-end">
-                    <button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>
-                      {isLoading ? 'กำลังบันทึก...' : 'เพิ่มผู้ใช้งาน'}
+                  <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
+                    <button type="button" onClick={() => setShowTaskForm(false)} className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
+                      ยกเลิก
+                    </button>
+                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
+                      {isLoading ? 'กำลังบันทึก...' : 'บันทึกงาน'}
                     </button>
                   </div>
                 </form>
               </GlassCard>
-
-              {usersList.length > 0 && (
-                <GlassCard className="p-6 md:p-8">
-                   <h2 className="text-xl font-bold mb-4">รายชื่อผู้ใช้งานระบบ</h2>
-                   <div className="overflow-x-auto">
-                     <table className="w-full text-left border-collapse">
-                       <thead>
-                         <tr className="border-b border-gray-200 text-sm text-gray-500">
-                           <th className="py-3 px-4 font-semibold">ชื่อ-นามสกุล</th>
-                           <th className="py-3 px-4 font-semibold">Username</th>
-                           <th className="py-3 px-4 font-semibold">Role</th>
-                         </tr>
-                       </thead>
-                       <tbody>
-                         {usersList.map((u, i) => (
-                           <tr key={i} className="border-b border-gray-100 last:border-0 hover:bg-white/40 transition-colors">
-                             <td className="py-3 px-4 font-semibold">{u.name}</td>
-                             <td className="py-3 px-4 text-gray-600 font-medium">{u.username}</td>
-                             <td className="py-3 px-4">
-                               <span className={`text-xs px-2 py-1 rounded-full font-medium ${u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
-                                 {u.role}
-                               </span>
-                             </td>
-                           </tr>
-                         ))}
-                       </tbody>
-                     </table>
-                   </div>
-                </GlassCard>
-              )}
             </div>
           )}
 
-          {view === 'settings' && user.role === 'admin' && (
-            <GlassCard className="p-8 max-w-2xl">
-              <div className="mb-8">
-                <h2 className="text-xl font-bold mb-2">เชื่อมต่อฐานข้อมูล (Database Connection)</h2>
-                <p className="text-sm text-gray-500 font-medium">ระบบใช้ Google Sheets เป็นฐานข้อมูลหลัก เมื่อกดเชื่อมต่อระบบจะสร้างตารางที่จำเป็นให้โดยอัตโนมัติ (First-Time Setup)</p>
-              </div>
-
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Google Sheet ID</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-mono text-sm"
-                    placeholder="e.g., 1BxiMvs0XRYFgwnAKBTOoNecVNXp_a..."
-                    value={settings.sheetId}
-                    onChange={(e) => setSettings({...settings, sheetId: e.target.value})}
-                  />
-                  <p className="text-xs text-gray-400 mt-1 font-medium">คัดลอก ID จาก URL ของ Google Sheet</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Google Apps Script Web App URL</label>
-                  <input 
-                    type="text" 
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-mono text-sm"
-                    placeholder="https://script.google.com/macros/s/.../exec"
-                    value={settings.gasUrl}
-                    onChange={(e) => setSettings({...settings, gasUrl: e.target.value})}
-                  />
-                  <p className="text-xs text-gray-400 mt-1 font-medium">URL ที่ได้จากการ Deploy Script (ลงท้ายด้วย /exec)</p>
-                </div>
-                
-                <div className="pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                    <span className="text-sm font-semibold text-gray-600">
-                      {settings.isConnected ? 'เชื่อมต่อฐานข้อมูลแล้ว' : 'ยังไม่ได้เชื่อมต่อ'}
-                    </span>
+          {showWorkspaceForm && (
+            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+              <GlassCard className="w-full max-w-md p-6 bg-white/90">
+                <h2 className="text-2xl font-bold mb-6">สร้าง Workspace ใหม่</h2>
+                <form onSubmit={handleCreateWorkspace} className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อ Workspace</label>
+                    <input 
+                      type="text" required autoFocus
+                      className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
+                      value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)}
+                      placeholder="เช่น Marketing Team"
+                    />
                   </div>
-                  
-                  <button 
-                    onClick={handleConnectSettings}
-                    disabled={isLoading || !settings.sheetId || !settings.gasUrl}
-                    className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${
-                      (!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
-                      'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'
-                    }`}
-                  >
-                    {settings.isConnected ? 'อัปเดตการเชื่อมต่อ' : 'Connect & Auto Setup'}
-                  </button>
-                </div>
-              </div>
-            </GlassCard>
+                  <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
+                    <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
+                      ยกเลิก
+                    </button>
+                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
+                      {isLoading ? 'กำลังบันทึก...' : 'สร้าง Workspace'}
+                    </button>
+                  </div>
+                </form>
+              </GlassCard>
+            </div>
           )}
 
-        </div>
-      </main>
-
-      {view === 'tasks' && !showTaskForm && settings.isConnected && (
-        <button 
-          onClick={() => setShowTaskForm(true)}
-          className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform"
-        >
-          <Icons.Plus />
-        </button>
-      )}
-
-      {showTaskForm && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-          <GlassCard className="w-full max-w-lg p-6 bg-white/90">
-            <h2 className="text-2xl font-bold mb-6">สร้างงานใหม่</h2>
-            <form onSubmit={handleCreateTask} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่องาน</label>
-                <input 
-                  type="text" required autoFocus
-                  className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                  value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">รายละเอียด (Optional)</label>
-                <textarea 
-                  rows="3"
-                  className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none resize-none font-sans"
-                  value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">พื้นที่ทำงาน</label>
-                  <select 
-                    required
-                    className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                    value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}
-                  >
-                    <option value="" disabled>เลือก Workspace</option>
-                    {workspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">กำหนดส่ง</label>
-                  <input 
-                    type="date"
-                    className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                    value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})}
-                  />
-                </div>
-              </div>
-              <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
-                <button type="button" onClick={() => setShowTaskForm(false)} className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
-                  ยกเลิก
+          <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/60 backdrop-blur-2xl border-t border-white/40 pb-safe z-30 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
+            <div className="flex justify-around items-center h-16 px-2">
+              {[
+                { id: 'dashboard', icon: Icons.Home, label: 'หน้าแรก' },
+                { id: 'tasks', icon: Icons.CheckSquare, label: 'งาน' },
+                { id: 'workspaces', icon: Icons.Folder, label: 'พื้นที่' },
+                ...(user.role === 'admin' ? [
+                  { id: 'users', icon: Icons.UserGroup, label: 'ผู้ใช้' },
+                  { id: 'settings', icon: Icons.Settings, label: 'ตั้งค่า' }
+                ] : [])
+              ].map(item => (
+                <button
+                  key={item.id}
+                  onClick={() => setView(item.id)}
+                  className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${view === item.id ? 'text-[#0071E3]' : 'text-gray-400 hover:text-gray-600'}`}
+                >
+                  <item.icon />
+                  <span className="text-[10px] font-semibold">{item.label}</span>
                 </button>
-                <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
-                  {isLoading ? 'กำลังบันทึก...' : 'บันทึกงาน'}
-                </button>
-              </div>
-            </form>
-          </GlassCard>
+              ))}
+            </div>
+          </nav>
+
         </div>
-      )}
+      );
+    }
 
-      {showWorkspaceForm && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-          <GlassCard className="w-full max-w-md p-6 bg-white/90">
-            <h2 className="text-2xl font-bold mb-6">สร้าง Workspace ใหม่</h2>
-            <form onSubmit={handleCreateWorkspace} className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">ชื่อ Workspace</label>
-                <input 
-                  type="text" required autoFocus
-                  className="w-full px-4 py-2 rounded-xl bg-white border border-gray-200 focus:border-blue-500 outline-none font-sans"
-                  value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)}
-                  placeholder="เช่น Marketing Team"
-                />
-              </div>
-              <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100">
-                <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors">
-                  ยกเลิก
-                </button>
-                <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
-                  {isLoading ? 'กำลังบันทึก...' : 'สร้าง Workspace'}
-                </button>
-              </div>
-            </form>
-          </GlassCard>
-        </div>
-      )}
-
-      <nav className="md:hidden fixed bottom-0 inset-x-0 bg-white/60 backdrop-blur-2xl border-t border-white/40 pb-safe z-30 shadow-[0_-8px_30px_rgb(0,0,0,0.04)]">
-        <div className="flex justify-around items-center h-16 px-2">
-          {[
-            { id: 'dashboard', icon: Icons.Home, label: 'หน้าแรก' },
-            { id: 'tasks', icon: Icons.CheckSquare, label: 'งาน' },
-            { id: 'workspaces', icon: Icons.Folder, label: 'พื้นที่' },
-            ...(user.role === 'admin' ? [
-              { id: 'users', icon: Icons.UserGroup, label: 'ผู้ใช้' },
-              { id: 'settings', icon: Icons.Settings, label: 'ตั้งค่า' }
-            ] : [])
-          ].map(item => (
-            <button
-              key={item.id}
-              onClick={() => setView(item.id)}
-              className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${view === item.id ? 'text-[#0071E3]' : 'text-gray-400 hover:text-gray-600'}`}
-            >
-              <item.icon />
-              <span className="text-[10px] font-semibold">{item.label}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        /* Apple Web Typography Injection */
-        @font-face {
-          font-family: 'SF Pro Display';
-          font-style: normal;
-          font-weight: 400;
-          src: local('SF Pro Display Regular'), local('SFProDisplay-Regular');
-        }
-        @font-face {
-          font-family: 'SF Pro Display';
-          font-style: normal;
-          font-weight: 600;
-          src: local('SF Pro Display Semibold'), local('SFProDisplay-Semibold');
-        }
-        @font-face {
-          font-family: 'SF Pro Display';
-          font-style: normal;
-          font-weight: 700;
-          src: local('SF Pro Display Bold'), local('SFProDisplay-Bold');
-        }
-
-        /* Fallback for non-Apple devices */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap');
-
-        /* The exact Apple Font Stack */
-        body, .font-sans, input, select, textarea, button {
-          font-family: "SF Pro TH", "SF Pro Display", "SF Pro Text", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, "Noto Sans Thai", "Inter", sans-serif !important;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          letter-spacing: -0.022em; /* Apple-style tight tracking */
-        }
-
-        h1, h2, h3, h4, .font-semibold, .font-bold {
-          letter-spacing: -0.025em; /* Tighter tracking for headings */
-        }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes blob {
-          0% { transform: translate(0px, 0px) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        .animate-blob { animation: blob 7s infinite alternate; }
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
-        .animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
-      `}} />
-    </div>
-  );
-}
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
