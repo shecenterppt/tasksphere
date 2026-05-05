@@ -195,7 +195,10 @@
         subtasks: "งานย่อย (Subtasks)",
         addSubtask: "เพิ่มงานย่อย",
         progress: "ความคืบหน้า",
-        assignee: "ผู้รับผิดชอบ"
+        assignee: "ผู้รับผิดชอบ",
+        privateSpace: "Private (ส่วนตัว)",
+        sharedSpace: "Shared (แชร์ให้ทุกคน)",
+        wsType: "ประเภท Workspace"
       },
       en: {
         welcome: "Hello",
@@ -271,7 +274,10 @@
         subtasks: "Subtasks",
         addSubtask: "Add Subtask",
         progress: "Progress",
-        assignee: "Assignee"
+        assignee: "Assignee",
+        privateSpace: "Private Space",
+        sharedSpace: "Shared Space",
+        wsType: "Workspace Type"
       }
     };
 
@@ -296,7 +302,9 @@
       Moon: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>,
       X: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
       Square: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" strokeWidth="2" /></svg>,
-      SquareCheck: () => <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      SquareCheck: () => <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>,
+      Lock: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>,
+      Globe: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
     };
 
     // --- Components ---
@@ -347,11 +355,11 @@
       const [showTaskForm, setShowTaskForm] = useState(false);
       const [isEditing, setIsEditing] = useState(false);
       const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '', subtasks: [] });
-      const [selectedTaskDetail, setSelectedTaskDetail] = useState(null); // State สำหรับ Modal ดูรายละเอียดงาน
+      const [selectedTaskDetail, setSelectedTaskDetail] = useState(null); 
       
       const [newUser, setNewUser] = useState({ username: '', password: '', name: '', role: 'user' });
       const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
-      const [newWorkspaceName, setNewWorkspaceName] = useState('');
+      const [newWorkspace, setNewWorkspace] = useState({ name: '', type: 'Shared' }); 
 
       const apiCall = async (action, payload = {}) => {
         if (!settings.gasUrl) throw new Error("Google Apps Script URL is not configured");
@@ -442,7 +450,6 @@
       };
 
       const handleCreateUser = async (e) => {
-        // ... (คงเดิม)
         e.preventDefault();
         const userToSave = { ...newUser };
         const tempUser = { ...userToSave, id: 'temp_u_' + Date.now() };
@@ -457,18 +464,20 @@
       };
 
       const handleCreateWorkspace = async (e) => {
-        // ... (คงเดิม)
         e.preventDefault();
+        if (!newWorkspace.name.trim()) return;
         const tempId = 'temp_ws_' + Date.now();
-        const newWs = { id: tempId, name: newWorkspaceName, created_by: user.username };
+        const newWs = { id: tempId, name: newWorkspace.name, type: newWorkspace.type, created_by: user.username };
+        
         setWorkspaces(prev => [...prev, newWs]);
-        setShowWorkspaceForm(false); setNewWorkspaceName('');
+        setShowWorkspaceForm(false); 
+        setNewWorkspace({ name: '', type: 'Shared' });
 
         try {
-          const res = await apiCall('createWorkspace', { data: { name: newWs.name, created_by: newWs.created_by } });
+          const res = await apiCall('createWorkspace', { data: { name: newWs.name, type: newWs.type, created_by: newWs.created_by } });
           if (res.status === 'success') {
             setWorkspaces(prev => prev.map(w => w.id === tempId ? { ...w, id: res.data.id } : w));
-            Swal.fire({ icon: 'success', title: t.success, text: 'สร้าง Workspace สำเร็จ', timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
+            Swal.fire({ icon: 'success', title: t.success, text: t.success, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
           } else { setWorkspaces(prev => prev.filter(w => w.id !== tempId)); }
         } catch (e) { setWorkspaces(prev => prev.filter(w => w.id !== tempId)); }
       };
@@ -516,7 +525,7 @@
       };
 
       const openEditTask = (task) => {
-        setSelectedTaskDetail(null); // ปิด popup detail ก่อน
+        setSelectedTaskDetail(null); 
         setNewTask({ ...task });
         setIsEditing(true);
         setShowTaskForm(true);
@@ -545,7 +554,7 @@
         });
         if (!result.isConfirmed) return;
         const previousTasks = [...tasks]; setTasks(tasks.filter(t => t.id !== id));
-        setSelectedTaskDetail(null); // ปิด Popup หากเปิดอยู่
+        setSelectedTaskDetail(null); 
         try {
           await apiCall('deleteTask', { taskId: id });
           Swal.fire({ icon: 'success', title: t.delSuccess, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
@@ -560,8 +569,7 @@
         };
       }, [tasks, user]);
 
-
-      // --- Render Components ---
+      const filteredWorkspaces = workspaces.filter(ws => ws.type !== 'Private' || ws.created_by === user?.username);
 
       // Component สำหรับแสดงการ์ดแบบย่อ (Folder-like Compact Card)
       const renderCompactTaskCard = (task) => {
@@ -641,7 +649,6 @@
       return (
         <div className="min-h-screen flex font-sans selection:bg-blue-200 relative overflow-hidden">
           
-          {/* Background Blobs */}
           <div className="fixed inset-0 z-0 pointer-events-none">
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 mix-blend-multiply filter blur-[100px] animate-blob"></div>
             <div className="absolute top-[20%] right-[-10%] w-[35%] h-[35%] rounded-full bg-purple-400/20 mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000"></div>
@@ -654,7 +661,6 @@
             </div>
           )}
 
-          {/* Desktop Sidebar */}
           <aside className={`hidden md:flex flex-col fixed inset-y-0 left-0 bg-white/40 dark:bg-gray-800/40 backdrop-blur-2xl border-r border-white/60 dark:border-gray-700/50 z-20 pt-8 pb-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64 px-4' : 'w-20 px-2'}`}>
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="absolute -right-3.5 top-10 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-blue-500 hover:border-blue-300 transition-colors z-30">
               {isSidebarOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
@@ -695,7 +701,6 @@
             </div>
           </aside>
 
-          {/* Main Content */}
           <main className={`flex-1 pb-20 md:pb-0 min-h-screen relative overflow-y-auto transition-all duration-300 ease-in-out z-10 ${isSidebarOpen ? 'md:ml-64' : 'md:ml-20'}`}>
             <div className="absolute top-0 inset-x-0 h-64 bg-gradient-to-b from-white/40 dark:from-gray-800/40 to-transparent -z-10 pointer-events-none" />
 
@@ -733,7 +738,7 @@
                   </button>
                   
                   {view === 'tasks' && settings.isConnected && (
-                    <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-semibold active:scale-95">
+                    <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: filteredWorkspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-semibold active:scale-95">
                       <Icons.Plus /> {t.newTask}
                     </button>
                   )}
@@ -787,22 +792,33 @@
 
               {view === 'workspaces' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {workspaces.length === 0 && <p className="text-gray-400 col-span-2 font-medium">{t.noWs}</p>}
-                  {workspaces.map(ws => (
-                     <GlassCard key={ws.id} className="p-6 hover:shadow-md transition-shadow">
-                        <div className="flex items-center gap-3 mb-4">
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center"><Icons.Folder /></div>
-                          <h3 className="text-xl font-bold">{ws.name}</h3>
+                  {filteredWorkspaces.length === 0 && <p className="text-gray-400 col-span-2 font-medium">{t.noWs}</p>}
+                  {filteredWorkspaces.map(ws => (
+                     <GlassCard key={ws.id} className="p-6 hover:shadow-md transition-all relative overflow-hidden group">
+                        <div className={`absolute top-0 right-0 px-3 py-1.5 rounded-bl-xl font-bold text-[10px] flex items-center gap-1.5 ${ws.type === 'Private' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-400' : 'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400'}`}>
+                           {ws.type === 'Private' ? <Icons.Lock /> : <Icons.Globe />}
+                           {ws.type === 'Private' ? t.privateSpace.split(' ')[0] : t.sharedSpace.split(' ')[0]}
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">{t.creator}: <span className="font-semibold text-gray-700 dark:text-gray-200">{ws.created_by}</span></div>
-                        <div className="flex gap-2"><span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md font-semibold">{tasks.filter(tk => tk.workspace_id === ws.id).length} {t.taskCount}</span></div>
+
+                        <div className="flex items-center gap-3 mb-4 mt-2">
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${ws.type === 'Private' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' : 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'}`}>
+                            <Icons.Folder />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{ws.name}</h3>
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 font-medium">{t.creator}: <span className="font-semibold text-gray-700 dark:text-gray-200">{ws.created_by}</span></div>
+                          </div>
+                        </div>
+                        <div className="flex gap-2 border-t border-gray-100 dark:border-gray-700/50 pt-4 mt-2">
+                           <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-lg font-semibold">{tasks.filter(tk => tk.workspace_id === ws.id).length} {t.taskCount}</span>
+                        </div>
                      </GlassCard>
                   ))}
-                  {user.role === 'admin' && (
-                    <button onClick={() => setShowWorkspaceForm(true)} className="h-full min-h-[160px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all">
-                      <Icons.Plus /> <span className="mt-2 font-semibold">{t.addWs}</span>
-                    </button>
-                  )}
+                  
+                  <button onClick={() => setShowWorkspaceForm(true)} className="h-full min-h-[160px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all">
+                    <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3 group-hover:bg-blue-100 transition-colors"><Icons.Plus /></div>
+                    <span className="font-bold">{t.addWs}</span>
+                  </button>
                 </div>
               )}
 
@@ -856,14 +872,13 @@
             </div>
           </main>
 
-          {/* Floating Action Button (Mobile) */}
           {view === 'tasks' && !showTaskForm && settings.isConnected && (
-            <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform">
+            <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: filteredWorkspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform">
               <Icons.Plus />
             </button>
           )}
 
-          {/* 🎯 Popup ดูรายละเอียดงาน (Detail Modal แบบเต็มยศตามภาพ) */}
+          {/* Popup ดูรายละเอียดงาน */}
           {selectedTaskDetail && (
             <div className="fixed inset-0 bg-black/30 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in z-[60]">
               {(() => {
@@ -874,13 +889,8 @@
                 return (
                   <GlassCard className="w-full max-w-2xl bg-white/95 dark:bg-gray-800/95 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
                     <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar">
-                      
-                      {/* Header */}
                       <div className="flex items-start gap-4 mb-2">
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); toggleTaskStatus(task.id, task.status); }} 
-                          className={`mt-1 flex-shrink-0 w-8 h-8 rounded-full border-[2.5px] flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}
-                        >
+                        <button onClick={(e) => { e.stopPropagation(); toggleTaskStatus(task.id, task.status); }} className={`mt-1 flex-shrink-0 w-8 h-8 rounded-full border-[2.5px] flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}>
                           {task.status === 'Done' && <Icons.CheckMini />}
                         </button>
                         <div className="flex-1">
@@ -895,19 +905,15 @@
                         </div>
                       </div>
 
-                      {/* Subtasks Box */}
                       {task.subtasks && task.subtasks.length > 0 && (
                         <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm mt-8">
                           <div className="flex items-center justify-between px-5 py-3.5 bg-gray-50/80 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
                             <span className="font-bold text-sm text-gray-700 dark:text-gray-300">{t.subtasks} ({task.subtasks.length})</span>
                             <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{progress}% {t.progress}</span>
                           </div>
-                          
-                          {/* Progress Line */}
                           <div className="h-[3px] w-full bg-gray-100 dark:bg-gray-700">
                             <div className="h-full bg-[#0071E3] transition-all duration-500" style={{width: `${progress}%`}}></div>
                           </div>
-                          
                           <div className="p-3">
                             {task.subtasks.map(st => (
                               <div key={st.id} className="flex items-center gap-4 p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-colors group">
@@ -922,24 +928,12 @@
                         </div>
                       )}
 
-                      {/* Footer Tags */}
                       <div className="flex flex-wrap items-center gap-3 mt-8 pt-5 border-t border-gray-100 dark:border-gray-700">
-                        <span className={`px-3 py-1.5 rounded-lg text-xs font-bold ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}>
-                          {task.status}
-                        </span>
-                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-[#0071E3] dark:text-blue-400">
-                          <Icons.Folder className="w-4 h-4" /> {wsName}
-                        </span>
-                        {task.due_date && (
-                           <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
-                             <Icons.Clock className="w-4 h-4" /> {task.due_date}
-                           </span>
-                        )}
-                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 ml-auto">
-                          <Icons.User className="w-4 h-4" /> {task.assignee}
-                        </span>
+                        <span className={`px-3 py-1.5 rounded-lg text-xs font-bold ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}>{task.status}</span>
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-[#0071E3] dark:text-blue-400"><Icons.Folder className="w-4 h-4" /> {wsName}</span>
+                        {task.due_date && (<span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400"><Icons.Clock className="w-4 h-4" /> {task.due_date}</span>)}
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 ml-auto"><Icons.User className="w-4 h-4" /> {task.assignee}</span>
                       </div>
-
                     </div>
                   </GlassCard>
                 );
@@ -966,7 +960,7 @@
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.workspaces}</label>
                       <select required className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}>
                         <option value="" disabled>{t.selectWs}</option>
-                        {workspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
+                        {filteredWorkspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name} {ws.type === 'Private' ? '🔒' : ''}</option>)}
                       </select>
                     </div>
                     <div>
@@ -1019,16 +1013,29 @@
             </div>
           )}
 
-          {/* Workspace Modal */}
+          {/* Workspace Modal (Form) */}
           {showWorkspaceForm && (
             <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
               <GlassCard className="w-full max-w-md p-6 bg-white/95 dark:bg-gray-800/95 shadow-2xl">
                 <h2 className="text-2xl font-bold mb-6">{t.addWs}</h2>
-                <form onSubmit={handleCreateWorkspace} className="space-y-4">
+                <form onSubmit={handleCreateWorkspace} className="space-y-5">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.wsName}</label>
-                    <input type="text" required autoFocus className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)} />
+                    <input type="text" required autoFocus className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newWorkspace.name} onChange={e => setNewWorkspace({...newWorkspace, name: e.target.value})} />
                   </div>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{t.wsType}</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button type="button" onClick={() => setNewWorkspace({...newWorkspace, type: 'Shared'})} className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${newWorkspace.type === 'Shared' ? 'border-[#0071E3] bg-blue-50/50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                        <Icons.Globe /><span className="text-xs font-bold mt-2">{t.sharedSpace.split(' ')[0]}</span>
+                      </button>
+                      <button type="button" onClick={() => setNewWorkspace({...newWorkspace, type: 'Private'})} className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${newWorkspace.type === 'Private' ? 'border-purple-500 bg-purple-50/50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400' : 'border-gray-200 dark:border-gray-700 bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}`}>
+                        <Icons.Lock /><span className="text-xs font-bold mt-2">{t.privateSpace.split(' ')[0]}</span>
+                      </button>
+                    </div>
+                  </div>
+
                   <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
                     <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{t.cancel}</button>
                     <button type="submit" disabled={isLoading} className={`flex-1 py-3 text-white rounded-xl font-bold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>{isLoading ? t.checking : t.createWsBtn}</button>
