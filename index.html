@@ -105,6 +105,11 @@
     .animate-fade-in-up { animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
     .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
     .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+    
+    /* Scrollbar */
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 10px; }
   </style>
 </head>
 <body class="bg-[#f5f5f7] dark:bg-gray-900 text-[#1D1D1F] dark:text-gray-100 transition-colors duration-300">
@@ -275,10 +280,10 @@
       Home: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>,
       CheckSquare: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
       CheckMini: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>,
-      Folder: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>,
+      Folder: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>,
       Settings: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
       UserGroup: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
-      User: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
+      User: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>,
       Plus: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>,
       LogOut: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>,
       Clock: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
@@ -288,12 +293,15 @@
       ChevronRight: () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>,
       Refresh: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>,
       Sun: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>,
-      Moon: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+      Moon: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>,
+      X: () => <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>,
+      Square: () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" strokeWidth="2" /></svg>,
+      SquareCheck: () => <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M9 12l2 2 4-4" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>
     };
 
     // --- Components ---
-    const GlassCard = ({ children, className = '' }) => (
-      <div className={`bg-white/70 dark:bg-gray-800/60 backdrop-blur-xl border border-white/40 dark:border-gray-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl ${className}`}>
+    const GlassCard = ({ children, className = '', onClick }) => (
+      <div onClick={onClick} className={`bg-white/70 dark:bg-gray-800/60 backdrop-blur-xl border border-white/40 dark:border-gray-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-2xl ${className}`}>
         {children}
       </div>
     );
@@ -329,16 +337,17 @@
       const [isSidebarOpen, setIsSidebarOpen] = useState(true);
       const [workspaces, setWorkspaces] = useState([]);
       const [tasks, setTasks] = useState([]);
-      const [usersList, setUsersList] = useState([]); // Fetch users for everyone to assign subtasks
+      const [usersList, setUsersList] = useState([]);
 
       const [username, setUsername] = useState('');
       const [password, setPassword] = useState('');
       const [loginError, setLoginError] = useState('');
       
-      // Task Form State
+      // Task & Modal States
       const [showTaskForm, setShowTaskForm] = useState(false);
       const [isEditing, setIsEditing] = useState(false);
       const [newTask, setNewTask] = useState({ title: '', description: '', status: 'To Do', workspace_id: '', due_date: '', subtasks: [] });
+      const [selectedTaskDetail, setSelectedTaskDetail] = useState(null); // State สำหรับ Modal ดูรายละเอียดงาน
       
       const [newUser, setNewUser] = useState({ username: '', password: '', name: '', role: 'user' });
       const [showWorkspaceForm, setShowWorkspaceForm] = useState(false);
@@ -365,7 +374,7 @@
           const promises = [
             apiCall('getWorkspaces').catch(() => ({ status: 'error' })),
             apiCall('getTasks').catch(() => ({ status: 'error' })),
-            apiCall('getUsers').catch(() => ({ status: 'error' })) // Fetch users for dropdown assignees
+            apiCall('getUsers').catch(() => ({ status: 'error' }))
           ];
 
           const results = await Promise.all(promises);
@@ -375,16 +384,10 @@
           if (results[1] && results[1].status === 'success') {
             const today = new Date().toISOString().split('T')[0];
             const processedTasks = results[1].data.map(task => {
-              // Parse subtasks JSON
               let parsedSubtasks = [];
-              try {
-                parsedSubtasks = typeof task.subtasks === 'string' ? JSON.parse(task.subtasks) : (task.subtasks || []);
-              } catch(e) {}
-
+              try { parsedSubtasks = typeof task.subtasks === 'string' ? JSON.parse(task.subtasks) : (task.subtasks || []); } catch(e) {}
               const updatedTask = { ...task, subtasks: parsedSubtasks };
-              if (task.status !== 'Done' && task.due_date && task.due_date < today) {
-                 updatedTask.status = 'Overdue';
-              }
+              if (task.status !== 'Done' && task.due_date && task.due_date < today) updatedTask.status = 'Overdue';
               return updatedTask;
             });
             setTasks(processedTasks);
@@ -398,7 +401,6 @@
 
       useEffect(() => { loadData(); }, [user, settings.isConnected]);
 
-      // Calculate Progress Logic
       const calculateProgress = (subtasks) => {
         if (!subtasks || subtasks.length === 0) return null;
         const doneCount = subtasks.filter(s => s.status === 'Done').length;
@@ -407,27 +409,16 @@
 
       const handleLogin = async (e) => {
         e.preventDefault();
-        setIsLoading(true);
-        setLoginError('');
-
+        setIsLoading(true); setLoginError('');
         if (!settings.isConnected) {
-          setLoginError(t.dbWarningDesc);
-          setIsLoading(false);
-          return;
+          setLoginError(t.dbWarningDesc); setIsLoading(false); return;
         }
-
         try {
           const res = await apiCall('login', { username, password });
           if (res.status === 'success') {
-            setUser(res.data);
-            sessionStorage.setItem('tf_user', JSON.stringify(res.data));
-            setView('dashboard');
-          } else {
-            setLoginError(res.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง');
-          }
-        } catch (err) {
-          setLoginError(err.message);
-        }
+            setUser(res.data); sessionStorage.setItem('tf_user', JSON.stringify(res.data)); setView('dashboard');
+          } else { setLoginError(res.message || 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'); }
+        } catch (err) { setLoginError(err.message); }
         setIsLoading(false);
       };
 
@@ -439,23 +430,19 @@
       const handleConnectSettings = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch(settings.gasUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'setup', sheetId: settings.sheetId }),
-          });
+          const response = await fetch(settings.gasUrl, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'setup', sheetId: settings.sheetId }) });
           const data = await response.json();
           if (data.status === 'success') {
             const newSettings = { ...settings, isConnected: true };
             setSettings(newSettings); localStorage.setItem('tf_settings', JSON.stringify(newSettings));
             loadData(); Swal.fire(t.success, 'เชื่อมต่อฐานข้อมูลและตั้งค่าระบบสำเร็จ', 'success'); setView('dashboard');
           } else Swal.fire(t.fail, data.message, 'error');
-        } catch (e) {
-           Swal.fire(t.fail, 'ไม่สามารถเชื่อมต่อได้', 'error');
-        } finally { setIsLoading(false); }
+        } catch (e) { Swal.fire(t.fail, 'ไม่สามารถเชื่อมต่อได้', 'error'); } 
+        finally { setIsLoading(false); }
       };
 
       const handleCreateUser = async (e) => {
+        // ... (คงเดิม)
         e.preventDefault();
         const userToSave = { ...newUser };
         const tempUser = { ...userToSave, id: 'temp_u_' + Date.now() };
@@ -464,16 +451,13 @@
 
         try {
           const res = await apiCall('createUser', { data: userToSave });
-          if (res.status === 'success') {
-            Swal.fire({ icon: 'success', title: t.success, text: 'เพิ่มผู้ใช้งานสำเร็จ', timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
-          } else {
-            Swal.fire(t.fail, res.message, 'error');
-            setUsersList(prev => prev.filter(u => u.username !== tempUser.username));
-          }
+          if (res.status === 'success') Swal.fire({ icon: 'success', title: t.success, text: 'เพิ่มผู้ใช้งานสำเร็จ', timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
+          else { Swal.fire(t.fail, res.message, 'error'); setUsersList(prev => prev.filter(u => u.username !== tempUser.username)); }
         } catch (e) { setUsersList(prev => prev.filter(u => u.username !== tempUser.username)); }
       };
 
       const handleCreateWorkspace = async (e) => {
+        // ... (คงเดิม)
         e.preventDefault();
         const tempId = 'temp_ws_' + Date.now();
         const newWs = { id: tempId, name: newWorkspaceName, created_by: user.username };
@@ -491,19 +475,11 @@
 
       // --- Task & Subtask Handling ---
       const handleAddSubtaskForm = () => {
-        setNewTask(prev => ({
-          ...prev, 
-          subtasks: [...(prev.subtasks || []), { id: 'st_' + Date.now(), title: '', assignee: user.username, status: 'To Do' }]
-        }));
+        setNewTask(prev => ({ ...prev, subtasks: [...(prev.subtasks || []), { id: 'st_' + Date.now(), title: '', assignee: user.username, status: 'To Do' }] }));
       };
-
       const handleSubtaskChange = (id, field, value) => {
-        setNewTask(prev => ({
-          ...prev,
-          subtasks: prev.subtasks.map(st => st.id === id ? { ...st, [field]: value } : st)
-        }));
+        setNewTask(prev => ({ ...prev, subtasks: prev.subtasks.map(st => st.id === id ? { ...st, [field]: value } : st) }));
       };
-
       const handleRemoveSubtaskForm = (id) => {
         setNewTask(prev => ({ ...prev, subtasks: prev.subtasks.filter(st => st.id !== id) }));
       };
@@ -514,47 +490,33 @@
         
         const tempId = isEditing ? newTask.id : 'temp_t_' + Date.now();
         const taskDataToSave = {
-          title: newTask.title,
-          description: newTask.description,
-          status: newTask.status || 'To Do',
-          workspace_id: newTask.workspace_id || (workspaces[0]?.id || ''),
-          due_date: newTask.due_date,
-          assignee: newTask.assignee || user.username,
+          title: newTask.title, description: newTask.description,
+          status: newTask.status || 'To Do', workspace_id: newTask.workspace_id || (workspaces[0]?.id || ''),
+          due_date: newTask.due_date, assignee: newTask.assignee || user.username,
           subtasks: JSON.stringify(newTask.subtasks || [])
         };
 
         const taskDataForUI = { ...taskDataToSave, id: tempId, subtasks: newTask.subtasks || [] };
         
-        // Optimistic Update
         const prevTasks = [...tasks];
-        if (isEditing) {
-          setTasks(prevTasks.map(t => t.id === tempId ? taskDataForUI : t));
-        } else {
-          setTasks([taskDataForUI, ...prevTasks]);
-        }
+        if (isEditing) setTasks(prevTasks.map(t => t.id === tempId ? taskDataForUI : t));
+        else setTasks([taskDataForUI, ...prevTasks]);
         
-        setShowTaskForm(false);
-        setIsEditing(false);
+        setShowTaskForm(false); setIsEditing(false);
         
         try {
           const action = isEditing ? 'updateTask' : 'createTask';
           const payload = isEditing ? { taskId: tempId, data: taskDataToSave } : { data: taskDataToSave };
-          
           const res = await apiCall(action, payload);
           if (res.status === 'success') {
              if(!isEditing) setTasks(prev => prev.map(t => t.id === tempId ? { ...t, id: res.data.id } : t));
              Swal.fire({ icon: 'success', title: t.success, text: t.saveTask, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
-          } else {
-             Swal.fire(t.fail, 'ไม่สามารถบันทึกงานได้', 'error');
-             setTasks(prevTasks);
-          }
-        } catch (e) {
-          Swal.fire(t.fail, e.message, 'error');
-          setTasks(prevTasks);
-        }
+          } else { Swal.fire(t.fail, 'ไม่สามารถบันทึกงานได้', 'error'); setTasks(prevTasks); }
+        } catch (e) { Swal.fire(t.fail, e.message, 'error'); setTasks(prevTasks); }
       };
 
       const openEditTask = (task) => {
+        setSelectedTaskDetail(null); // ปิด popup detail ก่อน
         setNewTask({ ...task });
         setIsEditing(true);
         setShowTaskForm(true);
@@ -570,10 +532,8 @@
       const toggleSubtaskStatusCard = async (taskId, subtaskId) => {
         const task = tasks.find(t => t.id === taskId);
         if(!task) return;
-
         const updatedSubtasks = task.subtasks.map(st => st.id === subtaskId ? { ...st, status: st.status === 'Done' ? 'To Do' : 'Done' } : st);
         setTasks(tasks.map(t => t.id === taskId ? { ...t, subtasks: updatedSubtasks } : t));
-        
         try { await apiCall('updateTask', { taskId: taskId, data: { subtasks: JSON.stringify(updatedSubtasks) } }); } catch(e){}
       };
 
@@ -585,6 +545,7 @@
         });
         if (!result.isConfirmed) return;
         const previousTasks = [...tasks]; setTasks(tasks.filter(t => t.id !== id));
+        setSelectedTaskDetail(null); // ปิด Popup หากเปิดอยู่
         try {
           await apiCall('deleteTask', { taskId: id });
           Swal.fire({ icon: 'success', title: t.delSuccess, timer: 1500, showConfirmButton: false, toast: true, position: 'top-end' });
@@ -594,13 +555,57 @@
       const stats = useMemo(() => {
         const myTasks = tasks.filter(t => t.assignee === user?.username || user?.role === 'admin');
         return {
-          total: myTasks.length,
-          done: myTasks.filter(t => t.status === 'Done').length,
-          pending: myTasks.filter(t => t.status === 'To Do' || t.status === 'Doing').length,
-          overdue: myTasks.filter(t => t.status === 'Overdue').length,
+          total: myTasks.length, done: myTasks.filter(t => t.status === 'Done').length,
+          pending: myTasks.filter(t => t.status === 'To Do' || t.status === 'Doing').length, overdue: myTasks.filter(t => t.status === 'Overdue').length,
         };
       }, [tasks, user]);
 
+
+      // --- Render Components ---
+
+      // Component สำหรับแสดงการ์ดแบบย่อ (Folder-like Compact Card)
+      const renderCompactTaskCard = (task) => {
+        const progress = calculateProgress(task.subtasks);
+        const wsName = workspaces.find(w => w.id === task.workspace_id)?.name || 'Unknown';
+        
+        return (
+          <GlassCard 
+            key={task.id} 
+            onClick={() => setSelectedTaskDetail(task)} 
+            className="p-4 cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all group border-l-[6px] border-l-transparent hover:border-l-blue-500"
+          >
+            <div className="flex items-center gap-4">
+                <button 
+                  onClick={(e) => { e.stopPropagation(); toggleTaskStatus(task.id, task.status); }} 
+                  className={`flex-shrink-0 w-7 h-7 rounded-full border-[2.5px] flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}
+                >
+                   {task.status === 'Done' && <Icons.CheckMini />}
+                </button>
+                
+                <div className="flex-1 min-w-0">
+                    <h3 className={`font-semibold text-lg truncate ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-800 dark:text-gray-100'}`}>
+                      {task.title}
+                    </h3>
+                    <div className="flex items-center gap-3 mt-1.5 text-xs">
+                        <span className="flex items-center gap-1.5 text-blue-600 dark:text-blue-400 font-semibold bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded-md">
+                            <Icons.Folder className="w-3.5 h-3.5" /> {wsName}
+                        </span>
+                        {task.subtasks?.length > 0 && <span className="text-gray-500 dark:text-gray-400 font-medium tracking-wide">• {task.subtasks.length} {t.subtasks}</span>}
+                    </div>
+                </div>
+
+                {progress !== null && (
+                    <div className="hidden sm:flex flex-col items-end gap-1">
+                        <span className="text-[11px] font-bold text-gray-500 dark:text-gray-400">{progress}% {t.progress}</span>
+                        <div className="w-20 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div className="h-full bg-blue-500" style={{width: `${progress}%`}}></div>
+                        </div>
+                    </div>
+                )}
+            </div>
+          </GlassCard>
+        );
+      };
 
       if (!user) {
         return (
@@ -617,27 +622,14 @@
               <form onSubmit={handleLogin} className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.username}</label>
-                  <input 
-                    type="text" required
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans text-gray-900 dark:text-white placeholder-gray-400"
-                    placeholder={t.usernamePh}
-                    value={username} onChange={(e) => setUsername(e.target.value)}
-                  />
+                  <input type="text" required className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans text-gray-900 dark:text-white placeholder-gray-400" placeholder={t.usernamePh} value={username} onChange={(e) => setUsername(e.target.value)} />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t.password}</label>
-                  <input 
-                    type="password" required
-                    className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans text-gray-900 dark:text-white placeholder-gray-400"
-                    placeholder={t.passwordPh}
-                    value={password} onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <input type="password" required className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all font-sans text-gray-900 dark:text-white placeholder-gray-400" placeholder={t.passwordPh} value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 {loginError && <p className="text-red-500 text-sm font-medium text-center">{loginError}</p>}
-                <button 
-                  type="submit" disabled={isLoading}
-                  className={`w-full py-3 rounded-xl font-medium transition-all shadow-md shadow-blue-500/20 text-white ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}
-                >
+                <button type="submit" disabled={isLoading} className={`w-full py-3 rounded-xl font-semibold transition-all shadow-md shadow-blue-500/20 text-white ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>
                   {isLoading ? t.checking : t.login}
                 </button>
               </form>
@@ -664,17 +656,12 @@
 
           {/* Desktop Sidebar */}
           <aside className={`hidden md:flex flex-col fixed inset-y-0 left-0 bg-white/40 dark:bg-gray-800/40 backdrop-blur-2xl border-r border-white/60 dark:border-gray-700/50 z-20 pt-8 pb-4 transition-all duration-300 ease-in-out ${isSidebarOpen ? 'w-64 px-4' : 'w-20 px-2'}`}>
-            <button 
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="absolute -right-3.5 top-10 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-blue-500 hover:border-blue-300 transition-colors z-30"
-            >
+            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="absolute -right-3.5 top-10 w-7 h-7 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full flex items-center justify-center shadow-sm text-gray-500 hover:text-blue-500 hover:border-blue-300 transition-colors z-30">
               {isSidebarOpen ? <Icons.ChevronLeft /> : <Icons.ChevronRight />}
             </button>
 
             <div className={`flex items-center gap-3 mb-10 ${isSidebarOpen ? 'px-2' : 'justify-center'}`}>
-              <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0">
-                 <Icons.CheckSquare />
-              </div>
+              <div className="w-8 h-8 rounded-lg bg-blue-500 text-white flex items-center justify-center shrink-0"><Icons.CheckSquare /></div>
               {isSidebarOpen && <span className="font-semibold text-xl tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-300">TaskSphere</span>}
             </div>
 
@@ -683,17 +670,9 @@
                 { id: 'dashboard', label: t.dashboard, icon: Icons.Home },
                 { id: 'tasks', label: t.myTasks, icon: Icons.CheckSquare },
                 { id: 'workspaces', label: t.workspaces, icon: Icons.Folder },
-                ...(user.role === 'admin' ? [
-                  { id: 'users', label: t.manageUsers, icon: Icons.UserGroup },
-                  { id: 'settings', label: t.sysSettings, icon: Icons.Settings }
-                ] : [])
+                ...(user.role === 'admin' ? [ { id: 'users', label: t.manageUsers, icon: Icons.UserGroup }, { id: 'settings', label: t.sysSettings, icon: Icons.Settings } ] : [])
               ].map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => setView(item.id)}
-                  title={!isSidebarOpen ? item.label : ''}
-                  className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-3 rounded-xl transition-all ${view === item.id ? 'bg-white dark:bg-gray-800 shadow-sm font-semibold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 font-medium hover:bg-white/60 dark:hover:bg-gray-800/60'}`}
-                >
+                <button key={item.id} onClick={() => setView(item.id)} title={!isSidebarOpen ? item.label : ''} className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-4' : 'justify-center'} py-3 rounded-xl transition-all ${view === item.id ? 'bg-white dark:bg-gray-800 shadow-sm font-semibold text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-400 font-medium hover:bg-white/60 dark:hover:bg-gray-800/60'}`}>
                   <div className="shrink-0"><item.icon /></div>
                   {isSidebarOpen && <span className="whitespace-nowrap overflow-hidden">{item.label}</span>}
                 </button>
@@ -702,9 +681,7 @@
 
             <div className="mt-auto">
               <GlassCard className={`p-2 flex items-center gap-3 mb-2 bg-white/40 dark:bg-gray-800/40 border-none shadow-none ${isSidebarOpen ? 'px-4' : 'justify-center'}`}>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold uppercase shrink-0">
-                  {user.name.charAt(0)}
-                </div>
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold uppercase shrink-0">{user.name.charAt(0)}</div>
                 {isSidebarOpen && (
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold truncate dark:text-gray-200">{user.name}</p>
@@ -712,13 +689,8 @@
                   </div>
                 )}
               </GlassCard>
-              <button 
-                onClick={handleLogout} 
-                title={!isSidebarOpen ? t.logout : ''}
-                className={`w-full flex items-center ${isSidebarOpen ? 'justify-center gap-2 px-4' : 'justify-center'} py-2 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors`}
-              >
-                <div className="shrink-0"><Icons.LogOut /></div> 
-                {isSidebarOpen && <span>{t.logout}</span>}
+              <button onClick={handleLogout} title={!isSidebarOpen ? t.logout : ''} className={`w-full flex items-center ${isSidebarOpen ? 'justify-center gap-2 px-4' : 'justify-center'} py-2 text-sm font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors`}>
+                <div className="shrink-0"><Icons.LogOut /></div> {isSidebarOpen && <span>{t.logout}</span>}
               </button>
             </div>
           </aside>
@@ -761,7 +733,7 @@
                   </button>
                   
                   {view === 'tasks' && settings.isConnected && (
-                    <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-medium active:scale-95">
+                    <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-[#0071E3] text-white rounded-full hover:bg-blue-600 transition-all shadow-sm font-semibold active:scale-95">
                       <Icons.Plus /> {t.newTask}
                     </button>
                   )}
@@ -770,16 +742,8 @@
 
               {user.role === 'admin' && !settings.isConnected && view !== 'settings' && (
                 <div className="bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700/50 text-yellow-800 dark:text-yellow-200 p-4 rounded-xl flex items-center justify-between shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xl">⚠️</span>
-                    <div>
-                      <p className="font-semibold">{t.dbWarning}</p>
-                      <p className="text-sm opacity-80">{t.dbWarningDesc}</p>
-                    </div>
-                  </div>
-                  <button onClick={() => setView('settings')} className="px-4 py-2 bg-yellow-200 dark:bg-yellow-600 hover:bg-yellow-300 dark:hover:bg-yellow-500 dark:text-white rounded-lg text-sm font-semibold transition-colors">
-                    {t.setupNow}
-                  </button>
+                  <div className="flex items-center gap-3"><span className="text-xl">⚠️</span><div><p className="font-semibold">{t.dbWarning}</p><p className="text-sm opacity-80">{t.dbWarningDesc}</p></div></div>
+                  <button onClick={() => setView('settings')} className="px-4 py-2 bg-yellow-200 dark:bg-yellow-600 hover:bg-yellow-300 dark:hover:bg-yellow-500 dark:text-white rounded-lg text-sm font-semibold transition-colors">{t.setupNow}</button>
                 </div>
               )}
 
@@ -793,10 +757,8 @@
                       { label: t.overdue, value: stats.overdue, color: 'text-red-500 dark:text-red-400', bg: 'bg-red-50 dark:bg-red-900/30' },
                     ].map((stat, idx) => (
                       <GlassCard key={idx} className="p-6 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-transform duration-300">
-                        <div className={`w-12 h-12 rounded-full ${stat.bg} ${stat.color} flex items-center justify-center mb-3`}>
-                          <span className="text-2xl font-bold">{stat.value}</span>
-                        </div>
-                        <span className="text-sm font-medium text-gray-600 dark:text-gray-300">{stat.label}</span>
+                        <div className={`w-12 h-12 rounded-full ${stat.bg} ${stat.color} flex items-center justify-center mb-3`}><span className="text-2xl font-bold">{stat.value}</span></div>
+                        <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{stat.label}</span>
                       </GlassCard>
                     ))}
                   </div>
@@ -807,42 +769,9 @@
                       <button onClick={() => setView('tasks')} className="text-blue-500 text-sm font-semibold hover:underline">{t.seeAll}</button>
                     </div>
                     <div className="space-y-3">
-                      {tasks.filter(tk => tk.status !== 'Done' && (tk.assignee === user.username || user.role === 'admin')).slice(0, 3).map(task => {
-                        const progress = calculateProgress(task.subtasks);
-                        return (
-                        <GlassCard key={task.id} className="p-4 flex flex-col gap-3 group hover:bg-white/90 dark:hover:bg-gray-800 transition-colors">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-start gap-4">
-                              <button onClick={() => toggleTaskStatus(task.id, task.status)} className={`mt-1 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : task.status === 'Doing' ? 'border-orange-400 text-orange-400' : task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}>
-                                <Icons.CheckSquare />
-                              </button>
-                              <div>
-                                <h3 className={`font-semibold ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
-                                <div className="flex items-center gap-3 mt-1 text-xs">
-                                   <span className={`px-2 py-0.5 rounded-full font-medium ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-600 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-600 dark:text-green-400'}`}>
-                                      {task.status}
-                                    </span>
-                                    <span className="text-gray-500 dark:text-gray-400 flex items-center gap-1 font-medium">
-                                      <Icons.Clock /> {task.due_date || '-'}
-                                    </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {progress !== null && (
-                            <div className="w-full flex items-center gap-2 pl-10">
-                              <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
-                                <div className="bg-blue-500 h-1.5 rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div>
-                              </div>
-                              <span className="text-[10px] font-semibold text-gray-500 dark:text-gray-400 min-w-[28px]">{progress}%</span>
-                            </div>
-                          )}
-                        </GlassCard>
-                      )})}
+                      {tasks.filter(tk => tk.status !== 'Done' && (tk.assignee === user.username || user.role === 'admin')).slice(0, 3).map(renderCompactTaskCard)}
                       {tasks.filter(tk => tk.status !== 'Done').length === 0 && settings.isConnected && (
-                         <div className="text-center py-10 text-gray-400 font-medium">
-                            {t.noPending}
-                         </div>
+                         <div className="text-center py-10 text-gray-400 font-medium">{t.noPending}</div>
                       )}
                     </div>
                   </div>
@@ -852,74 +781,7 @@
               {view === 'tasks' && (
                  <div className="space-y-4">
                    {tasks.length === 0 && <p className="text-center text-gray-400 py-10 font-medium">{t.noTasks}</p>}
-                   {tasks.map(task => {
-                     const progress = calculateProgress(task.subtasks);
-                     return (
-                     <GlassCard key={task.id} className="p-5 flex flex-col justify-between gap-4 group">
-                        <div className="flex items-start gap-4 w-full">
-                            <button onClick={() => toggleTaskStatus(task.id, task.status)} className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors mt-1 ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : task.status === 'Doing' ? 'border-orange-400 text-orange-400' : task.status === 'Overdue' ? 'border-red-500 bg-red-50 text-red-500' : 'border-gray-300 dark:border-gray-600 text-transparent hover:border-green-500'}`}>
-                               {task.status === 'Done' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"></path></svg>}
-                            </button>
-                            <div className="flex-1 w-full">
-                              <div className="flex justify-between items-start">
-                                <h3 className={`font-semibold text-lg ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : ''}`}>{task.title}</h3>
-                                {(user.role === 'admin' || task.assignee === user.username) && (
-                                  <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button onClick={() => openEditTask(task)} className="text-gray-400 hover:text-blue-500 p-2 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors" title={t.editTask}>
-                                      <Icons.Edit />
-                                    </button>
-                                    <button onClick={() => handleDeleteTask(task.id)} className="text-gray-400 hover:text-red-500 p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Delete">
-                                      <Icons.Trash />
-                                    </button>
-                                  </div>
-                                )}
-                              </div>
-                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 font-medium">{task.description}</p>
-                              
-                              {/* Progress & Subtasks */}
-                              {task.subtasks && task.subtasks.length > 0 && (
-                                <div className="mt-4 border border-gray-100 dark:border-gray-700/50 rounded-xl overflow-hidden bg-white/30 dark:bg-gray-800/30">
-                                  <div className="bg-gray-50 dark:bg-gray-800/80 p-2 px-3 flex items-center justify-between text-xs font-semibold text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-700/50">
-                                    <span>{t.subtasks} ({task.subtasks.length})</span>
-                                    <span>{progress}% {t.progress}</span>
-                                  </div>
-                                  <div className="h-1 w-full bg-gray-200 dark:bg-gray-700">
-                                    <div className="h-1 bg-blue-500 transition-all duration-500" style={{width: `${progress}%`}}></div>
-                                  </div>
-                                  <div className="p-2 space-y-1">
-                                    {task.subtasks.map(st => (
-                                      <div key={st.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                                        <button onClick={() => toggleSubtaskStatusCard(task.id, st.id)} className={`flex-shrink-0 w-5 h-5 rounded border flex items-center justify-center transition-colors ${st.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}>
-                                          <Icons.CheckMini />
-                                        </button>
-                                        <span className={`flex-1 text-sm font-medium ${st.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>{st.title}</span>
-                                        <span className="text-[10px] font-semibold px-2 py-1 rounded bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">{st.assignee}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-
-                              <div className="flex flex-wrap items-center gap-2 mt-4 text-xs">
-                                 <span className={`px-2 py-1 rounded-md font-medium ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 animate-pulse' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}>
-                                    {task.status}
-                                  </span>
-                                  <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 py-1 rounded-md flex items-center gap-1 font-medium">
-                                    <Icons.Folder /> {workspaces.find(w => w.id === task.workspace_id)?.name || 'Unknown'}
-                                  </span>
-                                  {task.due_date && (
-                                    <span className={`flex items-center gap-1 px-2 py-1 rounded-md font-medium ${task.status === 'Overdue' ? 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400' : 'bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400'}`}>
-                                      <Icons.Clock /> {task.due_date}
-                                    </span>
-                                  )}
-                                  <span className="text-gray-400 ml-auto flex items-center gap-1 font-medium bg-gray-50 dark:bg-gray-800 px-2 py-1 rounded-md">
-                                    <Icons.User /> {task.assignee}
-                                  </span>
-                              </div>
-                            </div>
-                        </div>
-                     </GlassCard>
-                   )})}
+                   {tasks.map(renderCompactTaskCard)}
                  </div>
               )}
 
@@ -929,56 +791,33 @@
                   {workspaces.map(ws => (
                      <GlassCard key={ws.id} className="p-6 hover:shadow-md transition-shadow">
                         <div className="flex items-center gap-3 mb-4">
-                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center">
-                            <Icons.Folder />
-                          </div>
+                          <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center"><Icons.Folder /></div>
                           <h3 className="text-xl font-bold">{ws.name}</h3>
                         </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">
-                          {t.creator}: <span className="font-semibold text-gray-700 dark:text-gray-200">{ws.created_by}</span>
-                        </div>
-                        <div className="flex gap-2">
-                           <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md font-medium">{tasks.filter(tk => tk.workspace_id === ws.id).length} {t.taskCount}</span>
-                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">{t.creator}: <span className="font-semibold text-gray-700 dark:text-gray-200">{ws.created_by}</span></div>
+                        <div className="flex gap-2"><span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-md font-semibold">{tasks.filter(tk => tk.workspace_id === ws.id).length} {t.taskCount}</span></div>
                      </GlassCard>
                   ))}
                   {user.role === 'admin' && (
                     <button onClick={() => setShowWorkspaceForm(true)} className="h-full min-h-[160px] border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-blue-500 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all">
-                      <Icons.Plus /> <span className="mt-2 font-medium">{t.addWs}</span>
+                      <Icons.Plus /> <span className="mt-2 font-semibold">{t.addWs}</span>
                     </button>
                   )}
                 </div>
               )}
 
               {view === 'users' && user.role === 'admin' && (
-                // ... same users code ...
                 <div className="space-y-6">
                   <GlassCard className="p-6 md:p-8 max-w-2xl">
                     <h2 className="text-xl font-bold mb-6 flex items-center gap-2"><Icons.UserGroup /> {t.addUserTitle}</h2>
                     <form onSubmit={handleCreateUser} className="space-y-4">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.name}</label>
-                          <input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.role}</label>
-                          <select className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}>
-                            <option value="user">{t.userRole}</option><option value="admin">{t.adminRole}</option>
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.username}</label>
-                          <input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})} />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.password}</label>
-                          <input type="password" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})} />
-                        </div>
+                        <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.name}</label><input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.name} onChange={e => setNewUser({...newUser, name: e.target.value})} /></div>
+                        <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.role}</label><select className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.role} onChange={e => setNewUser({...newUser, role: e.target.value})}><option value="user">{t.userRole}</option><option value="admin">{t.adminRole}</option></select></div>
+                        <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.username}</label><input type="text" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.username} onChange={e => setNewUser({...newUser, username: e.target.value})} /></div>
+                        <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.password}</label><input type="password" required className="w-full px-4 py-2 rounded-xl bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none font-sans dark:text-white" value={newUser.password} onChange={e => setNewUser({...newUser, password: e.target.value})} /></div>
                       </div>
-                      <div className="pt-4 flex justify-end">
-                        <button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>{isLoading ? t.checking : t.addUserBtn}</button>
-                      </div>
+                      <div className="pt-4 flex justify-end"><button type="submit" disabled={isLoading} className={`px-6 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600 active:scale-95'}`}>{isLoading ? t.checking : t.addUserBtn}</button></div>
                     </form>
                   </GlassCard>
 
@@ -987,17 +826,10 @@
                        <h2 className="text-xl font-bold mb-4">{t.userList}</h2>
                        <div className="overflow-x-auto">
                          <table className="w-full text-left border-collapse">
-                           <thead>
-                             <tr className="border-b border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
-                               <th className="py-3 px-4 font-semibold">{t.name}</th><th className="py-3 px-4 font-semibold">{t.username}</th><th className="py-3 px-4 font-semibold">{t.role}</th>
-                             </tr>
-                           </thead>
+                           <thead><tr className="border-b border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400"><th className="py-3 px-4 font-semibold">{t.name}</th><th className="py-3 px-4 font-semibold">{t.username}</th><th className="py-3 px-4 font-semibold">{t.role}</th></tr></thead>
                            <tbody>
                              {usersList.map((u, i) => (
-                               <tr key={i} className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-white/40 dark:hover:bg-gray-800/40 transition-colors">
-                                 <td className="py-3 px-4 font-semibold">{u.name}</td><td className="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">{u.username}</td>
-                                 <td className="py-3 px-4"><span className={`text-xs px-2 py-1 rounded-full font-medium ${u.role === 'admin' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>{u.role}</span></td>
-                               </tr>
+                               <tr key={i} className="border-b border-gray-100 dark:border-gray-800 last:border-0 hover:bg-white/40 dark:hover:bg-gray-800/40 transition-colors"><td className="py-3 px-4 font-semibold">{u.name}</td><td className="py-3 px-4 text-gray-600 dark:text-gray-300 font-medium">{u.username}</td><td className="py-3 px-4"><span className={`text-xs px-2 py-1 rounded-full font-semibold ${u.role === 'admin' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'}`}>{u.role}</span></td></tr>
                              ))}
                            </tbody>
                          </table>
@@ -1009,27 +841,13 @@
 
               {view === 'settings' && user.role === 'admin' && (
                 <GlassCard className="p-8 max-w-2xl">
-                  <div className="mb-8">
-                    <h2 className="text-xl font-bold mb-2">{t.dbConn}</h2>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{t.dbHint}</p>
-                  </div>
+                  <div className="mb-8"><h2 className="text-xl font-bold mb-2">{t.dbConn}</h2><p className="text-sm text-gray-500 dark:text-gray-400 font-medium">{t.dbHint}</p></div>
                   <div className="space-y-5">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.sheetId}</label>
-                      <input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.sheetId} onChange={(e) => setSettings({...settings, sheetId: e.target.value})} />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.gasUrl}</label>
-                      <input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.gasUrl} onChange={(e) => setSettings({...settings, gasUrl: e.target.value})} />
-                    </div>
+                    <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.sheetId}</label><input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.sheetId} onChange={(e) => setSettings({...settings, sheetId: e.target.value})} /></div>
+                    <div><label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.gasUrl}</label><input type="text" className="w-full px-4 py-3 rounded-xl bg-gray-50/50 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 focus:border-blue-500 outline-none transition-all font-mono text-sm dark:text-white" value={settings.gasUrl} onChange={(e) => setSettings({...settings, gasUrl: e.target.value})} /></div>
                     <div className="pt-6 border-t border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <div className="flex items-center gap-2">
-                        <div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
-                        <span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{settings.isConnected ? t.connected : t.notConnected}</span>
-                      </div>
-                      <button onClick={handleConnectSettings} disabled={isLoading || !settings.sheetId || !settings.gasUrl} className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${(!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed' : 'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'}`}>
-                        {settings.isConnected ? t.updateConn : t.connectBtn}
-                      </button>
+                      <div className="flex items-center gap-2"><div className={`w-3 h-3 rounded-full ${settings.isConnected ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div><span className="text-sm font-semibold text-gray-600 dark:text-gray-300">{settings.isConnected ? t.connected : t.notConnected}</span></div>
+                      <button onClick={handleConnectSettings} disabled={isLoading || !settings.sheetId || !settings.gasUrl} className={`w-full sm:w-auto px-6 py-2.5 rounded-full font-semibold transition-all ${(!settings.sheetId || !settings.gasUrl) ? 'bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed' : 'bg-[#0071E3] text-white hover:bg-blue-600 shadow-md shadow-blue-500/20 active:scale-95'}`}>{settings.isConnected ? t.updateConn : t.connectBtn}</button>
                     </div>
                   </div>
                 </GlassCard>
@@ -1038,76 +856,161 @@
             </div>
           </main>
 
+          {/* Floating Action Button (Mobile) */}
           {view === 'tasks' && !showTaskForm && settings.isConnected && (
             <button onClick={() => { setNewTask({ title: '', description: '', status: 'To Do', workspace_id: workspaces[0]?.id || '', due_date: '', subtasks: [] }); setIsEditing(false); setShowTaskForm(true); }} className="md:hidden fixed bottom-24 right-6 w-14 h-14 bg-[#0071E3] text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 z-20 active:scale-90 transition-transform">
               <Icons.Plus />
             </button>
           )}
 
-          {/* New/Edit Task Modal with Subtasks */}
+          {/* 🎯 Popup ดูรายละเอียดงาน (Detail Modal แบบเต็มยศตามภาพ) */}
+          {selectedTaskDetail && (
+            <div className="fixed inset-0 bg-black/30 dark:bg-black/70 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in z-[60]">
+              {(() => {
+                const task = tasks.find(t => t.id === selectedTaskDetail.id) || selectedTaskDetail;
+                const progress = calculateProgress(task.subtasks) || 0;
+                const wsName = workspaces.find(w => w.id === task.workspace_id)?.name || 'Unknown Workspace';
+
+                return (
+                  <GlassCard className="w-full max-w-2xl bg-white/95 dark:bg-gray-800/95 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+                    <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar">
+                      
+                      {/* Header */}
+                      <div className="flex items-start gap-4 mb-2">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); toggleTaskStatus(task.id, task.status); }} 
+                          className={`mt-1 flex-shrink-0 w-8 h-8 rounded-full border-[2.5px] flex items-center justify-center transition-colors ${task.status === 'Done' ? 'bg-green-500 border-green-500 text-white' : 'border-gray-300 dark:border-gray-500 text-transparent hover:border-green-500'}`}
+                        >
+                          {task.status === 'Done' && <Icons.CheckMini />}
+                        </button>
+                        <div className="flex-1">
+                          <h2 className={`text-2xl font-bold ${task.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-900 dark:text-white'}`}>{task.title}</h2>
+                          <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium leading-relaxed">{task.description}</p>
+                        </div>
+                        <div className="flex gap-2 shrink-0">
+                          {(user.role === 'admin' || task.assignee === user.username) && (
+                            <button onClick={() => openEditTask(task)} className="p-2 text-gray-400 hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-full transition-colors" title={t.editTask}><Icons.Edit /></button>
+                          )}
+                          <button onClick={() => setSelectedTaskDetail(null)} className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"><Icons.X /></button>
+                        </div>
+                      </div>
+
+                      {/* Subtasks Box */}
+                      {task.subtasks && task.subtasks.length > 0 && (
+                        <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm mt-8">
+                          <div className="flex items-center justify-between px-5 py-3.5 bg-gray-50/80 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+                            <span className="font-bold text-sm text-gray-700 dark:text-gray-300">{t.subtasks} ({task.subtasks.length})</span>
+                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400">{progress}% {t.progress}</span>
+                          </div>
+                          
+                          {/* Progress Line */}
+                          <div className="h-[3px] w-full bg-gray-100 dark:bg-gray-700">
+                            <div className="h-full bg-[#0071E3] transition-all duration-500" style={{width: `${progress}%`}}></div>
+                          </div>
+                          
+                          <div className="p-3">
+                            {task.subtasks.map(st => (
+                              <div key={st.id} className="flex items-center gap-4 p-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-xl transition-colors group">
+                                <button onClick={() => toggleSubtaskStatusCard(task.id, st.id)} className="text-gray-300 dark:text-gray-500 hover:text-blue-500 transition-colors">
+                                  {st.status === 'Done' ? <span className="text-blue-500"><Icons.SquareCheck /></span> : <Icons.Square />}
+                                </button>
+                                <span className={`flex-1 text-sm font-semibold ${st.status === 'Done' ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>{st.title}</span>
+                                <span className="text-[11px] font-bold text-[#0071E3] dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2.5 py-1 rounded-md tracking-wide">{st.assignee}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Footer Tags */}
+                      <div className="flex flex-wrap items-center gap-3 mt-8 pt-5 border-t border-gray-100 dark:border-gray-700">
+                        <span className={`px-3 py-1.5 rounded-lg text-xs font-bold ${task.status === 'To Do' ? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300' : task.status === 'Doing' ? 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400' : task.status === 'Overdue' ? 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400'}`}>
+                          {task.status}
+                        </span>
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-[#0071E3] dark:text-blue-400">
+                          <Icons.Folder className="w-4 h-4" /> {wsName}
+                        </span>
+                        {task.due_date && (
+                           <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400">
+                             <Icons.Clock className="w-4 h-4" /> {task.due_date}
+                           </span>
+                        )}
+                        <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold bg-gray-50 dark:bg-gray-800 text-gray-500 dark:text-gray-400 ml-auto">
+                          <Icons.User className="w-4 h-4" /> {task.assignee}
+                        </span>
+                      </div>
+
+                    </div>
+                  </GlassCard>
+                );
+              })()}
+            </div>
+          )}
+
+          {/* New/Edit Task Modal with Subtasks (Form) */}
           {showTaskForm && (
             <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in overflow-y-auto">
-              <GlassCard className="w-full max-w-2xl p-6 bg-white/95 dark:bg-gray-800/95 max-h-[90vh] flex flex-col">
+              <GlassCard className="w-full max-w-2xl p-6 bg-white/95 dark:bg-gray-800/95 max-h-[90vh] flex flex-col shadow-2xl">
                 <h2 className="text-2xl font-bold mb-4 shrink-0">{isEditing ? t.editTask : t.newTask}</h2>
                 <form onSubmit={handleSaveTask} className="space-y-4 overflow-y-auto pr-2 pb-4 flex-1 custom-scrollbar">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.taskName}</label>
-                    <input type="text" required autoFocus className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})} />
+                    <input type="text" required autoFocus className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.title} onChange={e => setNewTask({...newTask, title: e.target.value})} />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.desc}</label>
-                    <textarea rows="2" className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none resize-none font-sans dark:text-white" value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})} />
+                    <textarea rows="2" className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none resize-none font-sans dark:text-white" value={newTask.description} onChange={e => setNewTask({...newTask, description: e.target.value})} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.workspaces}</label>
-                      <select required className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}>
+                      <select required className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.workspace_id} onChange={e => setNewTask({...newTask, workspace_id: e.target.value})}>
                         <option value="" disabled>{t.selectWs}</option>
                         {workspaces.map(ws => <option key={ws.id} value={ws.id}>{ws.name}</option>)}
                       </select>
                     </div>
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.dueDate}</label>
-                      <input type="date" className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})} />
+                      <input type="date" className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newTask.due_date} onChange={e => setNewTask({...newTask, due_date: e.target.value})} />
                     </div>
                   </div>
 
                   {/* Subtasks Section in Form */}
                   <div className="pt-4 border-t border-gray-100 dark:border-gray-700 mt-6">
-                    <div className="flex justify-between items-center mb-3">
+                    <div className="flex justify-between items-center mb-4">
                       <label className="block text-sm font-bold text-gray-700 dark:text-gray-300">{t.subtasks}</label>
-                      <button type="button" onClick={handleAddSubtaskForm} className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors flex items-center gap-1">
+                      <button type="button" onClick={handleAddSubtaskForm} className="text-xs font-bold px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-100 transition-colors flex items-center gap-1 shadow-sm">
                         <Icons.Plus /> {t.addSubtask}
                       </button>
                     </div>
                     
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       {(!newTask.subtasks || newTask.subtasks.length === 0) && (
-                        <p className="text-sm text-gray-400 dark:text-gray-500 italic py-2 text-center bg-gray-50 dark:bg-gray-800/50 rounded-xl">ไม่มีงานย่อย</p>
+                        <p className="text-sm font-medium text-gray-400 dark:text-gray-500 py-4 text-center bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">ไม่มีงานย่อย</p>
                       )}
                       {(newTask.subtasks || []).map((st) => (
-                        <div key={st.id} className="flex flex-col sm:flex-row gap-2 bg-gray-50 dark:bg-gray-800/80 p-3 rounded-xl border border-gray-100 dark:border-gray-700 items-start sm:items-center">
-                          <input type="text" placeholder="ชื่องานย่อย..." className="flex-1 w-full sm:w-auto px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-sm dark:text-white focus:border-blue-500" value={st.title} onChange={(e) => handleSubtaskChange(st.id, 'title', e.target.value)} />
-                          <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                            <select className="flex-1 sm:w-32 px-2 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs dark:text-white" value={st.assignee} onChange={(e) => handleSubtaskChange(st.id, 'assignee', e.target.value)}>
+                        <div key={st.id} className="flex flex-col sm:flex-row gap-2 bg-gray-50 dark:bg-gray-800/80 p-3 rounded-xl border border-gray-200 dark:border-gray-700 items-start sm:items-center">
+                          <input type="text" placeholder="ชื่องานย่อย..." className="flex-1 w-full sm:w-auto px-3 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-sm dark:text-white focus:border-blue-500 font-medium" value={st.title} onChange={(e) => handleSubtaskChange(st.id, 'title', e.target.value)} />
+                          <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0 shrink-0">
+                            <select className="flex-1 sm:w-32 px-2 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs font-semibold dark:text-white" value={st.assignee} onChange={(e) => handleSubtaskChange(st.id, 'assignee', e.target.value)}>
                               <option value={user.username}>ฉัน ({user.username})</option>
                               {usersList.filter(u => u.username !== user.username).map(u => <option key={u.username} value={u.username}>{u.username}</option>)}
                             </select>
-                            <select className="w-24 px-2 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs dark:text-white font-medium" value={st.status} onChange={(e) => handleSubtaskChange(st.id, 'status', e.target.value)}>
+                            <select className="w-24 px-2 py-2 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 outline-none text-xs dark:text-white font-bold" value={st.status} onChange={(e) => handleSubtaskChange(st.id, 'status', e.target.value)}>
                               <option value="To Do">To Do</option><option value="Done">Done</option>
                             </select>
-                            <button type="button" onClick={() => handleRemoveSubtaskForm(st.id)} className="w-8 h-8 shrink-0 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"><Icons.Trash /></button>
+                            <button type="button" onClick={() => handleRemoveSubtaskForm(st.id)} className="w-9 h-9 shrink-0 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors"><Icons.Trash /></button>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700 shrink-0">
-                    <button type="button" onClick={() => setShowTaskForm(false)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                  <div className="flex gap-3 mt-8 pt-4 border-t border-gray-100 dark:border-gray-700 shrink-0">
+                    <button type="button" onClick={() => setShowTaskForm(false)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                       {t.cancel}
                     </button>
-                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
+                    <button type="submit" disabled={isLoading} className={`flex-1 py-3 text-white rounded-xl font-bold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>
                       {isLoading ? t.checking : t.saveTask}
                     </button>
                   </div>
@@ -1119,16 +1022,16 @@
           {/* Workspace Modal */}
           {showWorkspaceForm && (
             <div className="fixed inset-0 bg-black/20 dark:bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
-              <GlassCard className="w-full max-w-md p-6 bg-white/90 dark:bg-gray-800/90">
+              <GlassCard className="w-full max-w-md p-6 bg-white/95 dark:bg-gray-800/95 shadow-2xl">
                 <h2 className="text-2xl font-bold mb-6">{t.addWs}</h2>
                 <form onSubmit={handleCreateWorkspace} className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t.wsName}</label>
-                    <input type="text" required autoFocus className="w-full px-4 py-2 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)} />
+                    <input type="text" required autoFocus className="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 focus:border-blue-500 outline-none font-sans dark:text-white" value={newWorkspaceName} onChange={e => setNewWorkspaceName(e.target.value)} />
                   </div>
                   <div className="flex gap-3 mt-6 pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{t.cancel}</button>
-                    <button type="submit" disabled={isLoading} className={`flex-1 py-2.5 text-white rounded-xl font-semibold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>{isLoading ? t.checking : t.createWsBtn}</button>
+                    <button type="button" onClick={() => setShowWorkspaceForm(false)} className="flex-1 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{t.cancel}</button>
+                    <button type="submit" disabled={isLoading} className={`flex-1 py-3 text-white rounded-xl font-bold transition-all shadow-sm ${isLoading ? 'bg-blue-400 cursor-not-allowed' : 'bg-[#0071E3] hover:bg-blue-600'}`}>{isLoading ? t.checking : t.createWsBtn}</button>
                   </div>
                 </form>
               </GlassCard>
@@ -1141,28 +1044,15 @@
                 { id: 'dashboard', icon: Icons.Home, label: t.dashboard },
                 { id: 'tasks', icon: Icons.CheckSquare, label: t.tasks },
                 { id: 'workspaces', icon: Icons.Folder, label: t.workspacesBtn },
-                ...(user.role === 'admin' ? [
-                  { id: 'users', icon: Icons.UserGroup, label: t.usersBtn },
-                  { id: 'settings', icon: Icons.Settings, label: t.settingsBtn }
-                ] : [])
+                ...(user.role === 'admin' ? [ { id: 'users', icon: Icons.UserGroup, label: t.usersBtn }, { id: 'settings', icon: Icons.Settings, label: t.settingsBtn } ] : [])
               ].map(item => (
-                <button
-                  key={item.id}
-                  onClick={() => setView(item.id)}
-                  className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${view === item.id ? 'text-[#0071E3] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-                >
-                  <item.icon />
-                  <span className="text-[10px] font-semibold">{item.label}</span>
+                <button key={item.id} onClick={() => setView(item.id)} className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${view === item.id ? 'text-[#0071E3] dark:text-blue-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}>
+                  <item.icon /><span className="text-[10px] font-semibold">{item.label}</span>
                 </button>
               ))}
             </div>
           </nav>
           
-          <style dangerouslySetInnerHTML={{__html: `
-            .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-            .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-            .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(156, 163, 175, 0.5); border-radius: 10px; }
-          `}} />
         </div>
       );
     }
